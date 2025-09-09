@@ -1,43 +1,37 @@
 import axios from "axios";
-import { makeRequest } from "../utils/axios.js";
-import { getAccessToken } from "../utils/getAccessToken.js";
 
-// Get token info
-export const sendToken = async (req, res) => {
+// This function will use a token provided in the request header
+const spotifyApi = axios.create({
+  baseURL: process.env.SPOTIFY_BASE_URL || "https://api.spotify.com/v1",
+});
+
+export const getProfile = async (req, res, next) => {
   try {
-    // 1 - Basic authorization
-    const token = await getAccessToken();
-
-    // 2 - Return token
-    res.json({
-      access_token: token,
-    });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch Spotify token" });
-  }
-};
-
-// Get user's profile data
-export const getProfile = async (req, res) => {
-  try {
-    // 1 - Call Spotify endpoint
-    const userRes = makeRequest.get("/me");
-    // 2 - Return data
-    res.json(userRes.data); // Send data as JSON
+    const { authorization } = req.headers;
+    if (!authorization) {
+      return res.status(401).json({ error: "Authorization header is missing" });
+    }
+    spotifyApi.defaults.headers.common["Authorization"] = authorization;
+    const response = await spotifyApi.get("/me");
+    res.json(response.data);
   } catch (error) {
     console.error("Error fetching user's profile data:", error.message);
-    res.status(500).json({ error: "Failed to fetch user's profile data" });
+    next(error); // Propagate to global error handler middleware
   }
 };
 
-// Get artist's data by ID
-export const getArtist = async (req, res) => {
+export const getArtist = async (req, res, next) => {
   try {
+    const { authorization } = req.headers;
+    if (!authorization) {
+      return res.status(401).json({ error: "Authorization header is missing" });
+    }
+    spotifyApi.defaults.headers.common["Authorization"] = authorization;
     const { id } = req.params;
-    const artistRes = await makeRequest.get(`/artists/${id}`);
-    res.json(artistRes.data);
+    const response = await spotifyApi.get(`/artists/${id}`);
+    res.json(response.data);
   } catch (error) {
     console.error("Error fetching artist:", error.message);
-    res.status(500).json({ error: "Failed to fetch artist data" });
+    next(error);
   }
 };

@@ -1,12 +1,8 @@
 import express from "express";
+import { getProfile, getArtist } from "../controllers/spotify.js";
 
-// Controllers
-import { sendToken, getProfile, getArtist } from "../controllers/spotify.js";
-
-// Express router
 const router = express.Router();
 
-router.get("/token", sendToken);
 router.get("/profile", getProfile);
 router.get("/artist/:id", getArtist);
 
