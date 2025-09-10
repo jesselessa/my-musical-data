@@ -29,7 +29,7 @@ export const UserProfileCard = ({ userProfile }) => {
             href={userProfile.external_urls.spotify}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-green-400 hover:underline"
+            className="text-white hover:underline"
           >
             View on Spotify
           </a>

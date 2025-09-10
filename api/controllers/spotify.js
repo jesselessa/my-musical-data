@@ -5,6 +5,11 @@ const spotifyApi = axios.create({
   baseURL: process.env.SPOTIFY_BASE_URL,
 });
 
+/*
+ * Here, we are actually referring to current user's data
+ */
+
+// Get profile data
 export const getProfile = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
@@ -22,20 +27,10 @@ export const getProfile = async (req, res, next) => {
   }
 };
 
-export const getArtist = async (req, res, next) => {
-  try {
-    const { authorization } = req.headers;
-    if (!authorization)
-      return res.status(401).json({ error: "Authorization header is missing" });
+// Get top artists (based on calculated affinity)
 
-    const { id } = req.params;
-    const response = await spotifyApi.get(`/artists/${id}`, {
-      headers: { Authorization: authorization },
-    });
+// Get top tracks
 
-    res.json(response.data);
-  } catch (error) {
-    console.error("Error fetching artist:", error.message);
-    next(error);
-  }
-};
+// Get recently played tracks
+
+// Get playlists (owned or followed by user)

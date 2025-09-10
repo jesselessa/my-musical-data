@@ -8,9 +8,9 @@ const refreshKey = "spotify_refresh_token";
 
 /*
  * === Base cookie options for security ===
- * httpOnly: Prevents client-side scripts from accessing the cookie.
- * sameSite: Protects against cross-site request forgery (CSRF) attacks.
- * secure: Ensures the cookie is only sent over HTTPS in production.
+ * httpOnly: prevents client-side scripts from accessing the cookie
+ * sameSite: protects against cross-site request forgery (CSRF) attacks
+ * secure: ensures the cookie is only sent over HTTPS in production
  */
 const baseCookieOptions = {
   httpOnly: true,
@@ -23,9 +23,9 @@ const baseCookieOptions = {
  */
 export const login = (req, res) => {
   const state = generateRandomString(16);
-  // Increased scope to request more user data and control
+  // Authorization scopes to request more user data and control
   const scope =
-    "user-read-private user-read-email user-read-recently-played user-top-read user-follow-read user-follow-modify playlist-read-private playlist-read-collaborative playlist-modify-public";
+    "user-read-private user-read-email user-top-read user-read-recently-played user-follow-read user-follow-modify playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private";
 
   // Sets the state in a secure cookie to prevent CSRF attacks
   res.cookie(stateKey, state, baseCookieOptions);
@@ -46,17 +46,19 @@ export const login = (req, res) => {
  * Handles the callback from Spotify authorization service.
  * It validates the state and exchanges the authorization code for an access token and a refresh token.
  */
-export const callback = async (req, res) => {
+export const callback = async (req, res, next) => {
   const { code, state } = req.query;
   const storedState = req.cookies ? req.cookies[stateKey] : null;
 
   // Checks if the state is missing or mismatched to prevent CSRF
-  if (state === null || state !== storedState)
+  if (state === null || state !== storedState) {
+    // We still redirect here as it's a specific frontend-handled error
     return res.redirect(
       `${process.env.CLIENT_URL}/#${new URLSearchParams({
         error: "state_mismatch",
       }).toString()}`
     );
+  }
 
   // Clears the state cookie after successful verification
   res.clearCookie(stateKey, baseCookieOptions);
@@ -95,27 +97,22 @@ export const callback = async (req, res) => {
       }).toString()}`
     );
   } catch (error) {
-    console.error(
-      "Error exchanging code for token:",
-      error.response?.data || error.message
-    );
-    res.redirect(
-      `${process.env.CLIENT_URL}/#${new URLSearchParams({
-        error: "invalid_token",
-      }).toString()}`
-    );
+    // Instead of handling the error directly, pass it to the global error handler
+    // This allows centralized logging and error management.
+    next(error);
   }
 };
 
 /*
  * Refreshes the access token using the stored refresh token
  */
-export const refresh = async (req, res) => {
+export const refresh = async (req, res, next) => {
   // Retrieves the refresh token from the httpOnly cookie
   const refresh_token = req.cookies ? req.cookies[refreshKey] : null;
 
   // Returns an error if the refresh token is not found
   if (!refresh_token) {
+    // This is a specific logical error, handled directly
     return res.status(401).json({ error: "no_refresh_token" });
   }
 
@@ -142,10 +139,8 @@ export const refresh = async (req, res) => {
     // Sends the new access token to the client
     res.status(200).json({ access_token });
   } catch (error) {
-    console.error(
-      "Error refreshing token:",
-      error.response?.data || error.message
-    );
-    res.status(400).json({ error: "failed_to_refresh_token" });
+    // Instead of handling the error directly, pass it to the global error handler
+    // This allows centralized logging and error management
+    next(error);
   }
 };
