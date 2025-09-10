@@ -1,3 +1,11 @@
+//! Our app uses 'Authorization Code Flow'(app acting in the name of user) :
+//! 1 - Redirection to Spotify login page
+//! 2 - User gives its permission
+//! 3 - Spotify sends back an authorization code to our server
+//! 4 - Our server exchanges this code for an access token and a refresh token
+
+//! ⚠️ ≠ 'Client Credentials Flow' is a server-to-server flow where the application requests an access token using only its client_id and client_secret. It is used to access certain data without requiring user login
+
 import axios from "axios";
 import { generateRandomString } from "../utils/generateRandomString.js";
 
@@ -8,9 +16,9 @@ const refreshKey = "spotify_refresh_token";
 
 /*
  * === Base cookie options for security ===
- * httpOnly: prevents client-side scripts from accessing the cookie
- * sameSite: protects against cross-site request forgery (CSRF) attacks
- * secure: ensures the cookie is only sent over HTTPS in production
+/ httpOnly: prevents client-side scripts from accessing the cookie
+/ sameSite: protects against cross-site request forgery (CSRF) attacks
+/ secure: ensures the cookie is only sent over HTTPS in production
  */
 const baseCookieOptions = {
   httpOnly: true,
@@ -19,7 +27,7 @@ const baseCookieOptions = {
 };
 
 /*
- * Initiates the Spotify authentication flow by redirecting the user to the authorization URL
+ * Initiates the Spotify authentication flow ('Authorization Code Flow') by redirecting the user to the authorization URL
  */
 export const login = (req, res) => {
   const state = generateRandomString(16);
@@ -35,7 +43,7 @@ export const login = (req, res) => {
     response_type: "code",
     client_id: process.env.CLIENT_ID,
     scope: scope,
-    redirect_uri: process.env.REDIRECT_URI,
+    redirect_uri: process.env.REDIRECT_URI, // Must target our backend server
     state: state,
   });
 
