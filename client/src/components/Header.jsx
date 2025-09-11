@@ -1,26 +1,78 @@
-/*
- * ===      Header Component === 
- * Renders the page header and a logout button.
- * When the logout button is clicked, it clears the access token from local storage
- * and reloads the page to force a new login state.
- */
+import { useContext } from "react";
+import { AuthContext } from "../contexts/authProvider";
+import user from "../assets/user.png";
 
-export const Header = () => {
-  const handleLogout = () => {
-    // Clear access token from localStorage and reload the page
-    localStorage.removeItem("access_token");
-    // Reload the page to force a re-render and trigger the login state
-    window.location.href = "/";
-  };
+export const Header = ({ userProfile }) => {
+  const { logout } = useContext(AuthContext);
 
   return (
-    <header className="flex flex-col md:flex-row items-center justify-between mb-8">
-      <h1 className="text-4xl font-bold mb-4 md:mb-0">Spotify Profile</h1>
-      <button
-        onClick={handleLogout}
-        className="bg-green-500 text-white py-2 px-4 rounded-full font-bold hover:bg-green-600 transition-colors"
+    <header className="flex flex-col justify-center items-center gap-5">
+      {/* Profile pic */}
+      {userProfile?.images && userProfile.images?.length > 0 ? (
+        <div className="w-[150px] h-[150px] flex justify-center items-center rounded-full">
+          <img
+            src={userProfile.images[0].url}
+            className="w-full h-full rounded-full object-cover object-center"
+            alt="profile"
+          />
+        </div>
+      ) : (
+        <div className="w-[150px] h-[150px] justify-center items-center rounded-full">
+          <img
+            src={user}
+            className="w-full h-full rounded-full object-cover object-center"
+            alt="user"
+          />
+        </div>
+      )}
+
+      {/* Name */}
+      <a
+        href={userProfile?.external_urls?.spotify}
+        target="_blank"
+        rel="noopener noreferrer"
       >
-        Log out
+        <h2 className="text-5xl text-white font-semibold">
+          {userProfile?.display_name}
+        </h2>
+      </a>
+
+      {/* Stats */}
+      <div className="flex justify-center items-center gap-5">
+        <div className="flex flex-col justify-center items-center gap-2">
+          {userProfile?.followers?.total?.length === 0 ? (
+            <span>0</span>
+          ) : (
+            <span>{userProfile?.followers?.total.toString()}</span>
+          )}
+          <span>FOLLOWERS</span>
+        </div>
+
+        <div className="flex flex-col justify-center items-center gap-2">
+          {userProfile?.followers?.total?.length === 0 ? (
+            <span>0</span>
+          ) : (
+            <span>{userProfile?.followers?.total.toString()}</span>
+          )}
+          <span>FOLLOWING</span> {/* Change endpoint for following */}
+        </div>
+
+        <div className="flex flex-col justify-center items-center gap-2">
+          {userProfile?.followers?.total?.length === 0 ? (
+            <span>0</span>
+          ) : (
+            <span>{userProfile?.followers?.total.toString() || 28}</span>
+          )}
+          <span>PLAYLISTS</span>
+        </div>
+      </div>
+
+      {/* Logout */}
+      <button
+        onClick={logout}
+        className="font-semibold rounded-3xl border-2 border-white py-2.5 px-7 mt-6 cursor-pointer :hover-bg-white :hover-text-[#2c8f73]"
+      >
+        LOGOUT
       </button>
     </header>
   );
