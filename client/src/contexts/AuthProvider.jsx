@@ -6,7 +6,7 @@ import axios from "axios";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate(); // Navigate inside the Router
+  const navigate = useNavigate();
   const [userProfile, setUserProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState(null);
@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     const tokenFromUrl = params.get("access_token");
 
     if (tokenFromUrl) {
-      // Store the token in localStorage (LS) and set state
+      // Store the token in localStorage and set state
       localStorage.setItem("access_token", tokenFromUrl);
       setAccessToken(tokenFromUrl);
 
@@ -35,9 +35,7 @@ export const AuthProvider = ({ children }) => {
         setAccessToken(storedToken);
       } else {
         setLoading(false);
-        setError(
-          "My Spotify Data is a web app that helps Spotify users visualize their listening habits and get personalized recommendations."
-        );
+        setError("You need to log in to get started.");
       }
     }
   }, []);

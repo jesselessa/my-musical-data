@@ -1,20 +1,23 @@
+import { useContext } from "react";
 import { Outlet, Link } from "react-router";
+import { AuthContext } from "../contexts/AuthProvider.jsx";
 
 // Images
 import logo from "../assets/logo.png";
 import github from "../assets/github.png";
 
 export const Layout = () => {
+  const { userProfile } = useContext(AuthContext);
   return (
     <div className="flex h-screen">
       {/* Fixed navbar */}
       <nav className="w-30 flex flex-col justify-between items-center bg-[#121212] text-white text-center px-3 pt-5 pb-7">
         {/* Logo */}
-        <Link to="/profile">
+        <a href={`${userProfile?.external_urls?.spotify}`} target="_blank">
           <div className="w-[50px] h-[50px]">
             <img src={logo} className="object-cover object-center" alt="logo" />
           </div>
-        </Link>
+        </a>
 
         {/* Nav items list */}
         <ul className="flex flex-col gap-5">

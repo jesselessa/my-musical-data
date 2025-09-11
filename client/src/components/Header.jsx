@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/authProvider";
 import user from "../assets/user.png";
 
-export const Header = ({ userProfile }) => {
-  const { logout } = useContext(AuthContext);
+export const Header = () => {
+  const { userProfile, logout } = useContext(AuthContext);
 
   return (
     <header className="flex flex-col justify-center items-center gap-5">
@@ -27,50 +27,47 @@ export const Header = ({ userProfile }) => {
       )}
 
       {/* Name */}
-      <a
-        href={userProfile?.external_urls?.spotify}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <h2 className="text-5xl text-white font-semibold">
-          {userProfile?.display_name}
-        </h2>
-      </a>
+
+      <h2 className="text-5xl text-white font-semibold">
+        {userProfile?.display_name}
+      </h2>
 
       {/* Stats */}
       <div className="flex justify-center items-center gap-5">
         <div className="flex flex-col justify-center items-center gap-2">
-          {userProfile?.followers?.total?.length === 0 ? (
-            <span>0</span>
-          ) : (
-            <span>{userProfile?.followers?.total.toString()}</span>
-          )}
-          <span>FOLLOWERS</span>
+          <span className="text-[#1ed760] font-bold">
+            {userProfile?.followers?.total?.length === 0
+              ? "0"
+              : `${userProfile?.followers?.total.toString()}`}
+          </span>
+          <span className="text-sm text-[#9b9b9b]">FOLLOWERS</span>
         </div>
 
         <div className="flex flex-col justify-center items-center gap-2">
-          {userProfile?.followers?.total?.length === 0 ? (
-            <span>0</span>
-          ) : (
-            <span>{userProfile?.followers?.total.toString()}</span>
-          )}
-          <span>FOLLOWING</span> {/* Change endpoint for following */}
+          <span className="text-lg text-[#1ed760] font-bold">
+            {userProfile?.followers?.total?.length === 0
+              ? "0"
+              : `${userProfile?.followers?.total.toString()}`}
+          </span>
+          {/* Change later*/}
+          <span className="text-sm text-[#9b9b9b]">FOLLOWING</span>
         </div>
 
         <div className="flex flex-col justify-center items-center gap-2">
-          {userProfile?.followers?.total?.length === 0 ? (
-            <span>0</span>
-          ) : (
-            <span>{userProfile?.followers?.total.toString() || 28}</span>
-          )}
-          <span>PLAYLISTS</span>
+          <span className="text-lg text-[#1ed760] font-bold">
+            {userProfile?.followers?.total?.length === 0
+              ? "0"
+              : `${userProfile?.followers?.total.toString()}`}
+          </span>
+          {/* Change later*/}
+          <span className="text-sm text-[#9b9b9b]">PLAYLISTS</span>
         </div>
       </div>
 
       {/* Logout */}
       <button
         onClick={logout}
-        className="font-semibold rounded-3xl border-2 border-white py-2.5 px-7 mt-6 cursor-pointer :hover-bg-white :hover-text-[#2c8f73]"
+        className="text-sm font-semibold rounded-3xl border-1 border-white py-2 px-7 mt-5 cursor-pointer hover:bg-white hover:text-[#121212] transition-colors duration-200 ease-in-out"
       >
         LOGOUT
       </button>
