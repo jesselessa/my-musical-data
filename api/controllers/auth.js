@@ -59,14 +59,13 @@ export const callback = async (req, res, next) => {
   const storedState = req.cookies ? req.cookies[stateKey] : null;
 
   // Checks if the state is missing or mismatched to prevent CSRF
-  if (state === null || state !== storedState) {
-    // We still redirect here as it's a specific frontend-handled error
+  if (state === null || state !== storedState)
+    // Redirect here to profile page as it's a specific frontend-handled error
     return res.redirect(
       `${process.env.CLIENT_URL}/#${new URLSearchParams({
         error: "state_mismatch",
       }).toString()}`
     );
-  }
 
   // Clears the state cookie after successful verification
   res.clearCookie(stateKey, baseCookieOptions);
@@ -100,7 +99,7 @@ export const callback = async (req, res, next) => {
 
     // Redirects the client, sending only the short-lived access token in the URL hash
     res.redirect(
-      `${process.env.CLIENT_URL}/#${new URLSearchParams({
+      `${process.env.CLIENT_URL}/profile/#${new URLSearchParams({
         access_token,
       }).toString()}`
     );

@@ -12,7 +12,7 @@ export const Navbar = () => {
         <NavLink
           to="/profile"
           className={({ isActive }) =>
-            `p-2 flex flex-col justify-center items-center  hover:bg-[#181818] hover:border-l-4 hover:border-[#1ed760] hover:text-white ${
+            `p-2 flex flex-col justify-center items-center hover:bg-[#181818] hover:border-l-4  hover:border-[#1ed760] hover:text-white ${
               isActive
                 ? "border-l-4 border-[#1ed760] bg-[#181818] text-white"
                 : ""
@@ -26,7 +26,7 @@ export const Navbar = () => {
         </NavLink>
 
         <NavLink
-          to="/top-artists"
+          to="/artists"
           className={({ isActive }) =>
             `p-2 flex flex-col justify-center items-center  hover:bg-[#181818] hover:border-l-4 hover:border-[#1ed760] hover:text-white ${
               isActive
@@ -42,7 +42,7 @@ export const Navbar = () => {
         </NavLink>
 
         <NavLink
-          to="/top-tracks"
+          to="/tracks"
           className={({ isActive }) =>
             `p-2 flex flex-col justify-center items-center  hover:bg-[#181818] hover:border-l-4 hover:border-[#1ed760] hover:text-white ${
               isActive
@@ -89,9 +89,9 @@ export const Navbar = () => {
           </div>
         </NavLink>
       </div>
-      {/* Link to GH project*/}
+      {/* Link to GH profile */}
       <a
-        href="https://github.com/jesselessa/my-spotify-data"
+        href="https://github.com/jesselessa"
         target="_blank"
         rel="noopener noreferrer"
         className="hover:text-[#b9b9b9]"

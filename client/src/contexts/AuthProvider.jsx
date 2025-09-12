@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     } catch (err) {
       console.error("Error fetching user's profile:", err);
-      setError("Failed to fetch user's profile. Please try logging in later.");
+      setError("Failed to fetch user's profile. Please try connecting later.");
       localStorage.removeItem("access_token");
       setAccessToken(null);
       setLoading(false);

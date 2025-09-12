@@ -1,0 +1,31 @@
+import { useState } from "react";
+import { MainHeader } from "./MainHeader.jsx";
+import { FilterButtons } from "./FilterButtons.jsx";
+
+/*
+ * TopItemsPage acts as a generic frame or a template.
+ * Designed to be reusable for different lists (here, tracks and artists).
+ * Needs to know which specific component(s) to render inside its frame.
+ * We provide that information via the listComponent prop.
+ */
+export const TopItemsPage = ({ category, listComponent: ListComponent }) => {
+  const [selectedPeriod, setSelectedPeriod] = useState("All Time");
+
+  // Set title
+  const title = `Top ${category}`;
+
+  return (
+    <section className="h-full flex flex-col">
+      {/* Title */}
+      <MainHeader title={title}>
+        {/* Buttons for filtering by time period */}
+        <FilterButtons
+          selectedPeriod={selectedPeriod}
+          setSelectedPeriod={setSelectedPeriod}
+        />
+      </MainHeader>
+      {/* ⚠️ Pass period to the list component - Add data as prop later */}
+      <ListComponent period={selectedPeriod} />
+    </section>
+  );
+};

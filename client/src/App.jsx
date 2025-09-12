@@ -11,8 +11,8 @@ import { Layout } from "./layouts/Layout.jsx";
 import { UserProfile } from "./pages/UserProfile.jsx";
 import { TopArtists } from "./pages/TopArtists.jsx";
 import { TopTracks } from "./pages/TopTracks.jsx";
-import { Recent } from "./pages/Recent.jsx";
-import { Playlists } from "./pages/Playlists.jsx";
+import { RecentPage } from "./pages/RecentPage.jsx";
+import { PlaylistsPage } from "./pages/PlaylistsPage.jsx";
 
 export const App = () => {
   const { accessToken, loading } = useContext(AuthContext);
@@ -38,7 +38,7 @@ export const App = () => {
           }
         />
         <Route
-          path="/top-artists"
+          path="/artists"
           element={
             <ProtectedRoute>
               <TopArtists />
@@ -46,7 +46,7 @@ export const App = () => {
           }
         />
         <Route
-          path="/top-tracks"
+          path="/tracks"
           element={
             <ProtectedRoute>
               <TopTracks />
@@ -57,7 +57,7 @@ export const App = () => {
           path="/recent"
           element={
             <ProtectedRoute>
-              <Recent />
+              <RecentPage />
             </ProtectedRoute>
           }
         />
@@ -65,7 +65,7 @@ export const App = () => {
           path="/playlists"
           element={
             <ProtectedRoute>
-              <Playlists />
+              <PlaylistsPage />
             </ProtectedRoute>
           }
         />

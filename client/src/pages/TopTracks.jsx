@@ -1,3 +1,6 @@
+import { TopItemsPage } from "../components/TopItemsPage.jsx";
+import { TracksList } from "../components/TracksList.jsx";
+
 export const TopTracks = () => {
-  return <div>TopTracks</div>;
+  return <TopItemsPage category="Tracks" listComponent={TracksList} />;
 };
