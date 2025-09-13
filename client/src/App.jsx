@@ -21,13 +21,16 @@ export const App = () => {
   const { accessToken, loading } = useContext(AuthContext);
 
   const ProtectedRoute = ({ children }) => {
+    // Show loader if still loading
     if (loading)
       return (
-        <div className="h-full flex justify-center items-center text-white">
+        <div className="h-full flex justify-center items-center">
           <Loader />
         </div>
       );
+    // If not authenticated, redirect to login
     if (!accessToken) return <Login />;
+    // If authenticated, render the children components
     return children;
   };
 
