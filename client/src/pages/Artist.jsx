@@ -1,4 +1,8 @@
 // Get artist by ID
-export const Artist = ({ id }) => {
-  return <section>Artist</section>;
+export const Artist = () => {
+  return (
+    <section className="h-full flex flex-col justify-center items-center">
+      Artist
+    </section>
+  );
 };

@@ -10,6 +10,8 @@ import { Login } from "./pages/Login.jsx";
 import { Layout } from "./layouts/Layout.jsx";
 import { UserProfile } from "./pages/UserProfile.jsx";
 import { TopArtists } from "./pages/TopArtists.jsx";
+import { Artist } from "./pages/Artist.jsx";
+import { Track } from "./pages/Track.jsx";
 import { TopTracks } from "./pages/TopTracks.jsx";
 import { RecentPage } from "./pages/RecentPage.jsx";
 import { PlaylistsPage } from "./pages/PlaylistsPage.jsx";
@@ -46,10 +48,26 @@ export const App = () => {
           }
         />
         <Route
+          path="artists/:id"
+          element={
+            <ProtectedRoute>
+              <Artist />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/tracks"
           element={
             <ProtectedRoute>
               <TopTracks />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="tracks/:id"
+          element={
+            <ProtectedRoute>
+              <Track />
             </ProtectedRoute>
           }
         />

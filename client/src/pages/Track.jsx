@@ -1,4 +1,8 @@
 // Get track by ID
-export const Track = ({ id }) => {
-  return <section>Track</section>;
+export const Track = () => {
+  return (
+    <section className="h-full flex flex-col justify-center items-center">
+      Track
+    </section>
+  );
 };
