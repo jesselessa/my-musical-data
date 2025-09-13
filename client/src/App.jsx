@@ -102,14 +102,6 @@ export const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="*"
-            element={
-              <ProtectedRoute>
-                <UserProfile />
-              </ProtectedRoute>
-            }
-          />
         </Route>
       </Routes>
     </QueryClientProvider>

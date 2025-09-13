@@ -15,9 +15,10 @@ const router = express.Router();
 
 // User's data
 router.get("/profile", checkAuthHeader, getProfile);
-router.get("/top-artists", checkAuthHeader, getTopArtists);
-router.get("/top-tracks", checkAuthHeader, getTopTracks);
-router.get("/recently-played", checkAuthHeader, getRecentlyPlayed);
+router.get("/following", checkAuthHeader, getFollowing);
+router.get("/artists", checkAuthHeader, getTopArtists);
+router.get("/tracks", checkAuthHeader, getTopTracks);
+router.get("/recent", checkAuthHeader, getRecentlyPlayed);
 router.get("/playlists", checkAuthHeader, getPlaylists);
 
 // Spotify catalog

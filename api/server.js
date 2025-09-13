@@ -39,6 +39,9 @@ app.use("/api/spotify", spotifyRoutes); // Spotify data routes
 
 // Production configuration for serving static files
 if (process.env.NODE_ENV === "production") {
+  // Serves all static files from the client's build directory
+  app.use(express.static(path.join(__dirname, "../client/dist")));
+
   // Middleware to serve a single-page app (SPA) correctly
   // It rewrites requests to the client's index.html file, which is necessary for client-side routing
   app.use(
@@ -53,9 +56,6 @@ if (process.env.NODE_ENV === "production") {
       ],
     })
   );
-
-  // Serves all static files from the client's build directory
-  app.use(express.static(path.join(__dirname, "../client/dist")));
 
   // Catch-all route for any requests not handled by previous routes
   app.get("*", (req, res) => {

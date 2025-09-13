@@ -14,6 +14,8 @@ const stateKey = "spotify_auth_state";
 // Key for the secure cookie that stores the refresh token
 const refreshKey = "spotify_refresh_token";
 
+const SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize";
+const SPOTIFY_TOKEN_API = "https://accounts.spotify.com/api/token";
 /*
  * === Base cookie options for security ===
 / httpOnly: prevents client-side scripts from accessing the cookie
@@ -47,7 +49,7 @@ export const login = (req, res) => {
     state: state,
   });
 
-  res.redirect(`https://accounts.spotify.com/authorize?${params.toString()}`);
+  res.redirect(`${SPOTIFY_AUTH_URL}?${params.toString()}`);
 };
 
 /*
@@ -60,7 +62,7 @@ export const callback = async (req, res, next) => {
 
   // Checks if the state is missing or mismatched to prevent CSRF
   if (state === null || state !== storedState)
-    // Redirect here to profile page as it's a specific frontend-handled error
+    // In case of security check failure, redirection to login page with an error message in the URL hash
     return res.redirect(
       `${process.env.CLIENT_URL}/#${new URLSearchParams({
         error: "state_mismatch",
@@ -73,7 +75,7 @@ export const callback = async (req, res, next) => {
   try {
     // Exchanges the authorization code for tokens
     const response = await axios.post(
-      "https://accounts.spotify.com/api/token",
+      SPOTIFY_TOKEN_API,
       new URLSearchParams({
         code,
         redirect_uri: process.env.REDIRECT_URI,
@@ -97,7 +99,7 @@ export const callback = async (req, res, next) => {
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
 
-    // Redirects the client, sending only the short-lived access token in the URL hash
+    // In case of success, redirection to profile page with the access token in the URL hash
     res.redirect(
       `${process.env.CLIENT_URL}/profile/#${new URLSearchParams({
         access_token,
@@ -126,7 +128,7 @@ export const refresh = async (req, res, next) => {
   try {
     // Requests a new access token using the refresh token
     const response = await axios.post(
-      "https://accounts.spotify.com/api/token",
+      SPOTIFY_TOKEN_API,
       new URLSearchParams({
         grant_type: "refresh_token",
         refresh_token,

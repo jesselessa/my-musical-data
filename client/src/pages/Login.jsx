@@ -4,7 +4,7 @@ import logo from "../assets/logo.png";
 
 export const Login = () => {
   const { error } = useContext(AuthContext);
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_BASE_URL = import.meta.env.VITE_API_URL;
 
   return (
     <section className="h-screen flex flex-col justify-center items-center bg-[#121212] text-[#1ed760] text-center gap-2 p-20 m-auto">

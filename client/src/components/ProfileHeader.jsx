@@ -1,14 +1,48 @@
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
+import { useQuery } from "@tanstack/react-query";
+import { getFollowing, getPlaylists } from "../api/spotify.js";
 import userPlaceholder from "../assets/user.png";
 
 export const ProfileHeader = () => {
-  const { userProfile, logout } = useContext(AuthContext);
+  const { userProfile, accessToken, logout } = useContext(AuthContext);
 
+  // Profile image URL or placeholder
   const profileImageUrl =
     userProfile?.images && userProfile.images?.length > 0
       ? userProfile.images[0].url
       : userPlaceholder;
+
+  // Get list of followed artists ("Following")
+  const {
+    data: followingData,
+    isPending: isFollowingPending,
+    isError: isFollowingError,
+  } = useQuery({
+    queryKey: ["following", accessToken],
+    queryFn: () => getFollowing(accessToken),
+    enabled: !!accessToken,
+  });
+
+  // Get list of playlists
+  const {
+    data: playlistsData,
+    isPending: isPlaylistsPending,
+    isError: isPlaylistsError,
+  } = useQuery({
+    queryKey: ["playlists", accessToken],
+    queryFn: () => getPlaylists(accessToken),
+    enabled: !!accessToken,
+  });
+
+  //* "??" is called "nullish coalescing operator" (in French,'opérateur de fusion nulle') : it means if userProfile?.followers?.total is 'null' or 'undefined', followers number displays '0'
+  const followersCount = userProfile?.followers?.total?.toString() ?? "0";
+  const followingCount = followingData?.artists?.total?.toString() ?? "0";
+  const playlistsCount = playlistsData?.total?.toString() ?? "0";
+
+  if (isFollowingError || isPlaylistsError) {
+    console.error("Error fetching Spotify data");
+  }
 
   return (
     <header className="flex flex-col justify-center items-center gap-2 mb-12">
@@ -39,21 +73,19 @@ export const ProfileHeader = () => {
       {/* Stats */}
       <div className="flex justify-center items-center gap-5">
         <div className="flex flex-col justify-center items-center gap-2">
-          <span className="text-[#1ed760] font-bold">
-            {/* Below '??' means if userProfile?.followers?.total is 'null' or 'undefined', followers number displays '0'*/}
-            {/* '??' is called 'Nullish coalescing operator'(in French,'opérateur de fusion nulle') */}
-            {userProfile?.followers?.total?.toString() ?? "0"}
-          </span>
+          <span className="text-[#1ed760] font-bold">{followersCount}</span>
           <span className="text-sm text-[#9b9b9b]">FOLLOWERS</span>
         </div>
         <div className="flex flex-col justify-center items-center gap-2">
-          {/* Replace by the real data from API */}
-          <span className="text-lg text-[#1ed760] font-bold">24</span>
+          <span className="text-lg text-[#1ed760] font-bold">
+            {isFollowingPending ? "..." : followingCount}
+          </span>
           <span className="text-sm text-[#9b9b9b]">FOLLOWING</span>
         </div>
         <div className="flex flex-col justify-center items-center gap-2">
-          {/* Replaceplaylists */}
-          <span className="text-lg text-[#1ed760] font-bold">16</span>
+          <span className="text-lg text-[#1ed760] font-bold">
+            {isPlaylistsPending ? "..." : playlistsCount}
+          </span>
           <span className="text-sm text-[#9b9b9b]">PLAYLISTS</span>
         </div>
       </div>

@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(null);
   const [error, setError] = useState(null);
 
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
 
   // Initial authentication - Retrieve token from URL (Spotify redirect)
   useEffect(() => {
@@ -47,7 +47,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUserProfile = async (token) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/api/spotify/profile`, {
+      const response = await axios.get(`${API_URL}/api/spotify/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUserProfile(response.data);
