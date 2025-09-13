@@ -7,6 +7,7 @@ import { AuthContext } from "./contexts/AuthProvider.jsx";
 
 // Pages and components
 import { Login } from "./pages/Login.jsx";
+import { Loader } from "./components/Loader.jsx";
 import { Layout } from "./layouts/Layout.jsx";
 import { UserProfile } from "./pages/UserProfile.jsx";
 import { TopArtists } from "./pages/TopArtists.jsx";
@@ -20,7 +21,12 @@ export const App = () => {
   const { accessToken, loading } = useContext(AuthContext);
 
   const ProtectedRoute = ({ children }) => {
-    if (loading) return <div className="text-white">Loading...</div>;
+    if (loading)
+      return (
+        <div className="h-full flex justify-center items-center text-white">
+          <Loader />
+        </div>
+      );
     if (!accessToken) return <Login />;
     return children;
   };
@@ -84,6 +90,14 @@ export const App = () => {
           element={
             <ProtectedRoute>
               <PlaylistsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <ProtectedRoute>
+              <UserProfile />
             </ProtectedRoute>
           }
         />
