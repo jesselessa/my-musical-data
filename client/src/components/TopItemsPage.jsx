@@ -15,7 +15,7 @@ export const TopItemsPage = ({ category, listComponent: ListComponent }) => {
   const title = `Top ${category}`;
 
   return (
-    <section className="h-full flex flex-col">
+    <section className="h-full flex flex-col pt-12 px-12">
       {/* Title */}
       <MainHeader title={title}>
         {/* Buttons for filtering by time period */}

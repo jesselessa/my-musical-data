@@ -17,3 +17,10 @@ export const getPlaylists = async (token) => {
   });
   return data;
 };
+
+export const getRecentlyPlayed = async (token) => {
+  const { data } = await spotifyApi.get("/recent", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return data;
+};

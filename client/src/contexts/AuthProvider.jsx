@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
       // Store the token in localStorage and set state
       localStorage.setItem("access_token", tokenFromUrl);
       setAccessToken(tokenFromUrl);
+      console.log("Access Token:", tokenFromUrl); //TODO - remove in prod
 
       // Clear URL to remove the token hash
       window.history.replaceState({}, document.title, window.location.pathname);

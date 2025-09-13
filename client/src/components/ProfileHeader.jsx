@@ -7,7 +7,7 @@ import userPlaceholder from "../assets/user.png";
 export const ProfileHeader = () => {
   const { userProfile, accessToken, logout } = useContext(AuthContext);
 
-  // Profile image URL or placeholder
+  // Set profile pic (image URL or placeholder)
   const profileImageUrl =
     userProfile?.images && userProfile.images?.length > 0
       ? userProfile.images[0].url
@@ -66,7 +66,7 @@ export const ProfileHeader = () => {
         className="inline-block"
       >
         <span className="inline-block text-[#b9b9b9] mt-1 mb-2 hover:text-[#1ed760]">
-          Open in Spotify
+          View in Spotify
         </span>
       </a>
 
@@ -74,7 +74,9 @@ export const ProfileHeader = () => {
       <div className="flex justify-center items-center gap-5">
         <div className="flex flex-col justify-center items-center gap-2">
           <span className="text-[#1ed760] font-bold">{followersCount}</span>
-          <span className="text-sm text-[#9b9b9b]">FOLLOWERS</span>
+          <span className="text-sm text-[#9b9b9b]">
+            {followersCount === 1 ? "FOLLOWER" : "FOLLOWERS"}
+          </span>
         </div>
         <div className="flex flex-col justify-center items-center gap-2">
           <span className="text-lg text-[#1ed760] font-bold">
@@ -86,7 +88,9 @@ export const ProfileHeader = () => {
           <span className="text-lg text-[#1ed760] font-bold">
             {isPlaylistsPending ? "..." : playlistsCount}
           </span>
-          <span className="text-sm text-[#9b9b9b]">PLAYLISTS</span>
+          <span className="text-sm text-[#9b9b9b]">
+            {playlistsCount === 1 ? "PLAYLIST" : "PLAYLISTS"}
+          </span>
         </div>
       </div>
 

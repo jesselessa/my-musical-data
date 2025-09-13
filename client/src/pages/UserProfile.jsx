@@ -5,7 +5,7 @@ import { TracksList } from "../components/TracksList.jsx";
 
 export const UserProfile = () => {
   return (
-    <section className="h-full flex flex-col justify-center overflow-auto">
+    <section className="h-full flex flex-col justify-center overflow-auto pt-12 px-12">
       <ProfileHeader />
 
       {/* Top Summaries */}
