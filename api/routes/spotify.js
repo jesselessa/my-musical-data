@@ -1,11 +1,12 @@
 import express from "express";
 import {
   getProfile,
-  getArtist,
+  getFollowing,
   getTopArtists,
   getTopTracks,
   getRecentlyPlayed,
   getPlaylists,
+  getArtist,
   getTrack,
 } from "../controllers/spotify.js";
 import { checkAuthHeader } from "../middlewares/auth.js";

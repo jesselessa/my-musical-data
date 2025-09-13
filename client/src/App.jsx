@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import "./App.css";
 import { Routes, Route } from "react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Context
 import { AuthContext } from "./contexts/AuthProvider.jsx";
@@ -34,77 +35,83 @@ export const App = () => {
     return children;
   };
 
-  return (
-    <Routes>
-      <Route path="/" element={<Login />} />
+  // Create a client
+  const queryClient = new QueryClient();
 
-      {/* All pages with common layout */}
-      <Route element={<Layout />}>
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <UserProfile />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/artists"
-          element={
-            <ProtectedRoute>
-              <TopArtists />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="artists/:id"
-          element={
-            <ProtectedRoute>
-              <Artist />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/tracks"
-          element={
-            <ProtectedRoute>
-              <TopTracks />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="tracks/:id"
-          element={
-            <ProtectedRoute>
-              <Track />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/recent"
-          element={
-            <ProtectedRoute>
-              <RecentPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/playlists"
-          element={
-            <ProtectedRoute>
-              <PlaylistsPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="*"
-          element={
-            <ProtectedRoute>
-              <UserProfile />
-            </ProtectedRoute>
-          }
-        />
-      </Route>
-    </Routes>
+  return (
+    // Provide the client to our app
+    <QueryClientProvider client={queryClient}>
+      <Routes>
+        <Route path="/" element={<Login />} />
+
+        {/* All pages with common layout */}
+        <Route element={<Layout />}>
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/artists"
+            element={
+              <ProtectedRoute>
+                <TopArtists />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="artists/:id"
+            element={
+              <ProtectedRoute>
+                <Artist />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/tracks"
+            element={
+              <ProtectedRoute>
+                <TopTracks />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="tracks/:id"
+            element={
+              <ProtectedRoute>
+                <Track />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/recent"
+            element={
+              <ProtectedRoute>
+                <RecentPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/playlists"
+            element={
+              <ProtectedRoute>
+                <PlaylistsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <ProtectedRoute>
+                <UserProfile />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+      </Routes>
+    </QueryClientProvider>
   );
 };

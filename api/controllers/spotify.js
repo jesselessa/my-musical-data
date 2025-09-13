@@ -26,7 +26,6 @@ export const getProfile = async (req, res, next) => {
 };
 
 // Get the user's top artists based on calculated affinity ('user-top-read' scope)
-
 export const getTopArtists = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
@@ -90,6 +89,22 @@ export const getPlaylists = async (req, res, next) => {
   }
 };
 
+// Get artists followed by the current user ('user-follow-read')
+export const getFollowing = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    const { limit, offset } = req.query;
+    const response = await spotifyApi.get("/me/following", {
+      headers: { Authorization: authorization },
+      params: { type: "artist", limit, offset },
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching followed artists:", error.message);
+    next(error);
+  }
+};
+
 /*
  * === Catalog Endpoints ===
  * These endpoints fetch data from the Spotify catalog.
@@ -110,7 +125,7 @@ export const getArtist = async (req, res, next) => {
   }
 };
 
-// Get a track by its unique Spotify ID
+// Get a track by ID
 export const getTrack = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
