@@ -2,29 +2,84 @@ export const Loader = () => {
   const delays = ["250ms", "715ms", "475ms", "25ms", "190ms"];
 
   return (
-    <div className="flex justify-center items-center w-full h-[90vh]">
-      <div className="flex justify-center items-end overflow-hidden w-[100px] min-w-[100px] h-[50px] m-auto relative z-20">
-        {delays.map((delay, index) => (
-          <div
-            key={index}
-            className={`
-              w-[10px] h-[5px] mx-[2px] bg-gray-500
-              animate-[dance_400ms_linear_infinite_alternate]
-              [animation-delay:${delay}]
-            `}
-          ></div>
-        ))}
-      </div>
-      <style>{`
-        @keyframes dance {
-          from {
-            height: 10px;
-          }
-          to {
-            height: 100%;
-          }
-        }
-      `}</style>
+    <div aria-label="Loading..." role="status">
+      <svg
+        class="h-12 w-12 animate-spin stroke-[#b9b9b9]"
+        viewBox="0 0 256 256"
+      >
+        <line
+          x1="128"
+          y1="32"
+          x2="128"
+          y2="64"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="24"
+        ></line>
+        <line
+          x1="195.9"
+          y1="60.1"
+          x2="173.3"
+          y2="82.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="24"
+        ></line>
+        <line
+          x1="224"
+          y1="128"
+          x2="192"
+          y2="128"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="24"
+        ></line>
+        <line
+          x1="195.9"
+          y1="195.9"
+          x2="173.3"
+          y2="173.3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="24"
+        ></line>
+        <line
+          x1="128"
+          y1="224"
+          x2="128"
+          y2="192"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="24"
+        ></line>
+        <line
+          x1="60.1"
+          y1="195.9"
+          x2="82.7"
+          y2="173.3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="24"
+        ></line>
+        <line
+          x1="32"
+          y1="128"
+          x2="64"
+          y2="128"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="24"
+        ></line>
+        <line
+          x1="60.1"
+          y1="60.1"
+          x2="82.7"
+          y2="82.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="24"
+        ></line>
+      </svg>
     </div>
   );
 };

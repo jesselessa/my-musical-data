@@ -8,6 +8,7 @@ import {
   getPlaylists,
   getArtist,
   getTrack,
+  getPlaylist,
 } from "../controllers/spotify.js";
 import { checkAuthHeader } from "../middlewares/auth.js";
 
@@ -22,7 +23,8 @@ router.get("/recent", checkAuthHeader, getRecentlyPlayed);
 router.get("/playlists", checkAuthHeader, getPlaylists);
 
 // Spotify catalog
-router.get("/artist/:id", checkAuthHeader, getArtist);
-router.get("/track/:id", checkAuthHeader, getTrack);
+router.get("/artists/:id", checkAuthHeader, getArtist);
+router.get("/tracks/:id", checkAuthHeader, getTrack);
+router.get("/playlists/:id", checkAuthHeader, getPlaylist);
 
 export default router;

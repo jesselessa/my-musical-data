@@ -66,7 +66,7 @@ export const ProfileHeader = () => {
         className="inline-block"
       >
         <span className="inline-block text-[#b9b9b9] mt-1 mb-2 hover:text-[#1ed760]">
-          View in Spotify
+          Open in Spotify
         </span>
       </a>
 

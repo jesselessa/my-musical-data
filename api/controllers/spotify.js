@@ -139,3 +139,18 @@ export const getTrack = async (req, res, next) => {
     next(error);
   }
 };
+
+// Get a playlist by ID
+export const getPlaylist = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    const { id } = req.params;
+    const response = await spotifyApi.get(`/playlists/${id}`, {
+      headers: { Authorization: authorization },
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching playlist:", error.message);
+    next(error);
+  }
+};
