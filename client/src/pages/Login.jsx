@@ -20,7 +20,7 @@ export const Login = () => {
       {/* Redirection to Spotify Login page */}
       <a
         href={`${API_BASE_URL}/api/auth/login`}
-        className="display:inline-block w-[220px] bg-[#16c038] text-[#121212] font-bold tracking-[1px] rounded-full py-3 px-5 active:transform active:translate-y-[2px] duration-150 ease-in-out hover:bg-green-600 transition-colors cursor-pointer"
+        className="display:inline-block w-[220px] bg-[#16c038] text-[#121212] font-bold tracking-[1px] rounded-full py-3 px-5 active:transform active:translate-y-[1.5px] duration-150 ease-in-out hover:bg-green-600 transition-colors cursor-pointer"
       >
         LOG IN TO SPOTIFY
       </a>

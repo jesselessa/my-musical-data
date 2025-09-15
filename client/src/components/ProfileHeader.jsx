@@ -96,7 +96,7 @@ export const ProfileHeader = () => {
       {/* Logout */}
       <button
         onClick={logout}
-        className="text-sm font-semibold tracking-[2px] rounded-3xl border-1 border-white py-2 px-7 mt-5 cursor-pointer hover:bg-white hover:text-[#121212] transition-colors duration-200 ease-in-out"
+        className="text-sm font-semibold tracking-[2px] rounded-3xl border-1 border-white py-2 px-7 mt-5 cursor-pointer hover:bg-white hover:text-[#121212] transition-colors duration-200 ease-in-out active:transform active:translate-y-[1px]"
       >
         LOGOUT
       </button>
