@@ -9,6 +9,7 @@ export const ArtistsList = ({
   period,
   listWrapperClass,
   itemComponentProps,
+  itemsLimit,
 }) => {
   const { accessToken } = useContext(AuthContext);
 
@@ -36,9 +37,12 @@ export const ArtistsList = ({
       </div>
     );
 
+  // Limit the number of displayed artists based on itemsLimit prop
+  const itemsToDisplay = artistsData?.items?.slice(0, itemsLimit) || [];
+
   return (
     <div className={listWrapperClass}>
-      {artistsData.items.map((artist) => (
+      {itemsToDisplay.map((artist) => (
         <Artist
           key={artist.id}
           artist={artist}

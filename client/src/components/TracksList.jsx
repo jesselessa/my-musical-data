@@ -8,7 +8,8 @@ import { Loader } from "./Loader.jsx";
 export const TracksList = ({
   period,
   listWrapperClass,
-  // itemComponentProps,
+  itemComponentProps,
+  itemsLimit,
 }) => {
   const { accessToken } = useContext(AuthContext);
 
@@ -17,7 +18,7 @@ export const TracksList = ({
     isPending: isTracksPending,
     isError: isTracksError,
   } = useQuery({
-    queryKey: ["tracks", period], // The query key now includes the period to trigger a refetch when the period changes 
+    queryKey: ["tracks", period], // The query key now includes the period to trigger a refetch when the period changes
     queryFn: () => getTopTracks(accessToken, mapPeriodToTimeRange(period)),
     enabled: !!accessToken,
   });
@@ -43,15 +44,13 @@ export const TracksList = ({
       </div>
     );
 
+  // Limit the number of displayed tracks based on itemsLimit prop
+  const itemsToDisplay = tracksData?.items?.slice(0, itemsLimit) || [];
+
   return (
     <div className={listWrapperClass}>
-      {tracksData.items.map((track) => (
-        <Track
-          key={track.id}
-          track={track}
-          // {...itemComponentProps}
-        />
-        // Spread the styles object as props
+      {itemsToDisplay.map((track) => (
+        <Track key={track.id} track={track} {...itemComponentProps} />
       ))}
     </div>
   );

@@ -14,13 +14,13 @@ export const UserProfile = () => {
           title="Top Artists Of All Time"
           category="Artists"
           listComponent={ArtistsList}
-          listWrapperClass="flex-col space-y-4"
+          listWrapperClass="flex flex-col gap-4"
         />
         <TopSummary
           title="Top Tracks Of All Time"
           category="Tracks"
           listComponent={TracksList}
-          listWrapperClass="flex-col space-y-4"
+          listWrapperClass="flex flex-col gap-4"
         />
       </div>
     </section>
