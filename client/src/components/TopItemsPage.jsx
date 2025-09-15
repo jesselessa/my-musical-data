@@ -8,14 +8,20 @@ import { FilterButtons } from "./FilterButtons.jsx";
  * Needs to know which specific component(s) to render inside its frame.
  * We provide that information via the listComponent prop.
  */
-export const TopItemsPage = ({ category, listComponent: ListComponent }) => {
+
+export const TopItemsPage = ({
+  category,
+  listComponent: ListComponent,
+  listWrapperClass,
+  itemComponentProps,
+}) => {
   const [selectedPeriod, setSelectedPeriod] = useState("All Time");
 
   // Set title
   const title = `Top ${category}`;
 
   return (
-    <section className="h-full flex flex-col pt-12 px-12">
+    <section className="h-full flex flex-col">
       {/* Title */}
       <MainHeader title={title}>
         {/* Buttons for filtering by time period */}
@@ -24,8 +30,12 @@ export const TopItemsPage = ({ category, listComponent: ListComponent }) => {
           setSelectedPeriod={setSelectedPeriod}
         />
       </MainHeader>
-      {/* ⚠️ Pass period to the list component - Add data as prop later */}
-      <ListComponent period={selectedPeriod} />
+      {/* ⚠️ Pass `listWrapperClass` for the styles */}
+      <ListComponent
+        period={selectedPeriod}
+        listWrapperClass={`${listWrapperClass}`}
+        itemComponentProps={itemComponentProps}
+      />
     </section>
   );
 };

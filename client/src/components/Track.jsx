@@ -13,7 +13,8 @@ export const Track = ({ track }) => {
         <div className="flex flex-col justify-center">
           <p className="text-white font-semibold">{track.name}</p>
           <p className="text-gray-400 text-sm">
-            {track.artists.map((a) => a.name).join(", ")} - {track.album.name}
+            {track.artists.map((a) => a.name).join(", ")} -{" "}
+            {track.album.name ? ` - ${track.album.name}` : ""}
           </p>
         </div>
       </div>

@@ -40,9 +40,8 @@ export const ProfileHeader = () => {
   const followingCount = followingData?.artists?.total?.toString() ?? "0";
   const playlistsCount = playlistsData?.total?.toString() ?? "0";
 
-  if (isFollowingError || isPlaylistsError) {
+  if (isFollowingError || isPlaylistsError)
     console.error("Error fetching Spotify data");
-  }
 
   return (
     <header className="flex flex-col justify-center items-center gap-2 mb-12">

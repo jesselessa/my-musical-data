@@ -3,7 +3,7 @@ import ICONS from "./icons/navbar/NavbarIcons.jsx";
 
 export const Navbar = () => {
   return (
-    <nav className="w-24 flex flex-col justify-between items-center bg-[#121212] text-white text-center text-sm pt-5 pb-7">
+    <nav className="h-screen w-24 flex flex-col justify-between items-center bg-[#121212] text-white text-center text-sm pt-5 pb-7">
       {/* Logo */}
       <Link to="/profile">{ICONS.logoSpotify}</Link>
 

@@ -1,30 +1,58 @@
-export const TracksList = ({ period }) => {
-  // Add items later
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthProvider.jsx";
+import { useQuery } from "@tanstack/react-query";
+import { getTopTracks, mapPeriodToTimeRange } from "../api/spotify.js";
+import { Track } from "./Track.jsx";
+import { Loader } from "./Loader.jsx";
 
-  // Fetch data from API :
-  // 1 - Top all time tracks
-  // 2 - " " last 6 months
-  // 2 - " " last 4 weeks
-  // 4 - Recently played tracks
+export const TracksList = ({
+  period,
+  listWrapperClass,
+  // itemComponentProps,
+}) => {
+  const { accessToken } = useContext(AuthContext);
 
-  // If they aren't any tracks, we display a message
-  // if (!items || items.length === 0) {
-  //   return (
-  //     <div className="text-white text-center mt-8">
-  //       No tracks to display for this period.
-  //     </div>
-  //   );
-  // }
+  const {
+    data: tracksData,
+    isPending: isTracksPending,
+    isError: isTracksError,
+  } = useQuery({
+    queryKey: ["tracks", period], // The query key now includes the period to trigger a refetch when the period changes 
+    queryFn: () => getTopTracks(accessToken, mapPeriodToTimeRange(period)),
+    enabled: !!accessToken,
+  });
+
+  if (isTracksPending)
+    return (
+      <div className="flex-1 flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+
+  if (isTracksError)
+    return (
+      <div className="flex-1 flex">
+        <p className="text-gray-400">Error loading tracks.</p>
+      </div>
+    );
+
+  if (!tracksData?.items?.length)
+    return (
+      <div className="flex-1 flex">
+        <p className="text-gray-400">No tracks to display for this period.</p>
+      </div>
+    );
 
   return (
-    <div className="flex-1 flex flex-col bg-red-400">
-      <h3>{period} Top Tracks</h3>
-      {/* Loop on tracks and diplay here */}
-      {/* {items.map((track) => (
-        <div key={track.id}>
-          {track.name} - {track.artist}  
-        </div>
-      ))} */}
+    <div className={listWrapperClass}>
+      {tracksData.items.map((track) => (
+        <Track
+          key={track.id}
+          track={track}
+          // {...itemComponentProps}
+        />
+        // Spread the styles object as props
+      ))}
     </div>
   );
 };

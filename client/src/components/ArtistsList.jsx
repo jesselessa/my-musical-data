@@ -1,27 +1,50 @@
-export const ArtistsList = ({ period }) => {
-  // Add {items} later
+import { useContext } from "react";
+import { AuthContext } from "../contexts/AuthProvider.jsx";
+import { useQuery } from "@tanstack/react-query";
+import { getTopArtists, mapPeriodToTimeRange } from "../api/spotify.js";
+import { Artist } from "./Artist.jsx";
+import { Loader } from "./Loader.jsx";
 
-  // Fetch data from API :
-  // 1 - Top all time artists
-  // 2 - " " last 6 months
-  // 3 - " " last 4 weeks
+export const ArtistsList = ({
+  period,
+  listWrapperClass,
+  itemComponentProps,
+}) => {
+  const { accessToken } = useContext(AuthContext);
 
-  // If they aren't any artists, we display a message
-  // if (!items || items.length === 0) {
-  //   return (
-  //     <div className="text-white text-center mt-8">
-  //       No artists to display for this period.
-  //     </div>
-  //   );
-  // }
+  const {
+    data: artistsData,
+    isPending: isArtistsPending,
+    isError: isArtistsError,
+  } = useQuery({
+    queryKey: ["artists", period], // The query key now includes the period to trigger a refetch when the period changes
+    queryFn: () => getTopArtists(accessToken, mapPeriodToTimeRange(period)),
+    enabled: !!accessToken,
+  });
+
+  if (isArtistsPending)
+    return (
+      <div className="flex-1 flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+
+  if (isArtistsError)
+    return (
+      <div className="flex-1 flex">
+        <p>Error loading artists</p>
+      </div>
+    );
 
   return (
-    <div className="flex-1 flex flex-col bg-red-400">
-      <h3>{period} Artists</h3>
-      {/* Loop on artists and diplay here */}
-      {/* {items.map((artist) => (
-        <div key={artist.id}>{artist.name}</div>
-      ))} */}
+    <div className={listWrapperClass}>
+      {artistsData.items.map((artist) => (
+        <Artist
+          key={artist.id}
+          artist={artist}
+          {...itemComponentProps} // Spread the styles object as props
+        />
+      ))}
     </div>
   );
 };

@@ -12,8 +12,8 @@ import { Loader } from "./components/Loader.jsx";
 import { Layout } from "./layouts/Layout.jsx";
 import { UserProfile } from "./pages/UserProfile.jsx";
 import { TopArtists } from "./pages/TopArtists.jsx";
-import { Artist } from "./pages/Artist.jsx";
-import { Track } from "./pages/Track.jsx";
+import { ArtistPage } from "./pages/ArtistPage.jsx";
+import { TrackPage } from "./pages/TrackPage.jsx";
 import { TopTracks } from "./pages/TopTracks.jsx";
 import { RecentPage } from "./pages/RecentPage.jsx";
 import { PlaylistsPage } from "./pages/PlaylistsPage.jsx";
@@ -66,7 +66,7 @@ export const App = () => {
             path="artists/:id"
             element={
               <ProtectedRoute>
-                <Artist />
+                <ArtistPage />
               </ProtectedRoute>
             }
           />
@@ -82,7 +82,7 @@ export const App = () => {
             path="tracks/:id"
             element={
               <ProtectedRoute>
-                <Track />
+                <TrackPage />
               </ProtectedRoute>
             }
           />
@@ -102,7 +102,10 @@ export const App = () => {
               </ProtectedRoute>
             }
           />
+          <Route path="*" element={<UserProfile />} />
         </Route>
+
+        <Route path="*" element={<Login />} />
       </Routes>
     </QueryClientProvider>
   );

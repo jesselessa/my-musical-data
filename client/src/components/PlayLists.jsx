@@ -19,31 +19,26 @@ export const Playlists = () => {
   });
 
   // Handle loading, error, and empty states first
-  if (isPlaylistsPending) {
+  if (isPlaylistsPending)
     return (
       <div className="flex-1 flex justify-center items-center">
         <Loader />
       </div>
     );
-  }
 
-  if (isPlaylistsError) {
+  if (isPlaylistsError)
     return (
       <div className="flex-1 flex justify-center items-center">
-        <p className="text-gray-400">
-          Erreur lors du chargement des playlists.
-        </p>
+        <p className="text-gray-400">Error loading playlists.</p>
       </div>
     );
-  }
 
-  if (!playlistsData?.items?.length) {
+  if (!playlistsData?.items?.length)
     return (
       <div className="flex-1 flex justify-center items-center">
-        <p className="text-gray-400">Vous n'avez pas de playlists.</p>
+        <p className="text-gray-400">You have no playlists.</p>
       </div>
     );
-  }
 
   return (
     <div className="flex-1 flex flex-wrap">
