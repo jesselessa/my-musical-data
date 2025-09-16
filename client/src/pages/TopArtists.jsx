@@ -5,7 +5,7 @@ export const TopArtists = () => {
   // Set props to customize the Artist component
   const artistStyles = {
     layout: "flex-col",
-    imageSize: "w-[200px] h-[200px]", // Larger size for the image
+    coverSize: "w-[200px] h-[200px]", // Larger size for the image
     nameSize: "text-lg", // Larger font size
   };
 

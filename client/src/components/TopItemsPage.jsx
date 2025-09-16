@@ -4,9 +4,9 @@ import { FilterButtons } from "./FilterButtons.jsx";
 
 /*
  * TopItemsPage acts as a generic frame or a template.
- * Designed to be reusable for different lists (here, tracks and artists).
- * Needs to know which specific component(s) to render inside its frame.
- * We provide that information via the listComponent prop.
+ * Designed to be reusable for different lists (here, TracksList and ArtistsList)
+ * Needs to know which specific component(s) to render inside its frame
+ * We provide that information via the listComponent props
  */
 
 export const TopItemsPage = ({
@@ -33,7 +33,7 @@ export const TopItemsPage = ({
       {/* ⚠️ Pass `listWrapperClass` for the styles */}
       <ListComponent
         period={selectedPeriod}
-        listWrapperClass={`${listWrapperClass}`}
+        listWrapperClass={listWrapperClass}
         itemComponentProps={itemComponentProps}
       />
     </section>

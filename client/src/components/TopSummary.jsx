@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 export const TopSummary = ({
   title,
@@ -10,9 +10,20 @@ export const TopSummary = ({
   // When the user clicks "See More", we show a full list with 20 items
   const [showFullList, setShowFullList] = useState(false);
 
+  // With "useRef", we create a mutable reference that persists throughout the component lifecycle, without re-rendering when its value changes
+  const listEndRef = useRef();
+
   // Function to handle "See More" button click
   const handleSeeMoreClick = () => {
     setShowFullList(true);
+
+    //! State updates in React, like setShowFullList(true), are asynchronous.
+    // This means the DOM isn't updated instantly, so an immediate call to scrollIntoView() might fail because the target element isn't rendered yet. We use setTimeout with a 0ms delay to ensure DOM has been updated
+    setTimeout(() => {
+      listEndRef.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }, 0);
   };
 
   return (
@@ -36,6 +47,9 @@ export const TopSummary = ({
         listWrapperClass={listWrapperClass}
         itemsLimit={showFullList ? 20 : 10}
       />
+
+      {/* List end reference */}
+      <div ref={listEndRef}></div>
     </section>
   );
 };

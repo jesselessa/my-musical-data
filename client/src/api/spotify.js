@@ -56,3 +56,17 @@ export const getRecentlyPlayed = async (token) => {
   });
   return data;
 };
+
+export const getArtist = async (token, artistId) => {
+  const { data } = await spotifyApi.get(`/artists/${artistId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return data;
+};
+
+export const getTrack = async (token, trackId) => {
+  const { data } = await spotifyApi.get(`/tracks/${trackId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return data;
+};

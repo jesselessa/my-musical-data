@@ -17,6 +17,7 @@ import { TrackPage } from "./pages/TrackPage.jsx";
 import { TopTracks } from "./pages/TopTracks.jsx";
 import { RecentPage } from "./pages/RecentPage.jsx";
 import { PlaylistsPage } from "./pages/PlaylistsPage.jsx";
+import { PlaylistPage } from "./pages/PlaylistPage.jsx";
 
 export const App = () => {
   const { accessToken, loading } = useContext(AuthContext);
@@ -63,7 +64,7 @@ export const App = () => {
             }
           />
           <Route
-            path="artists/:id"
+            path="artists/:artistId"
             element={
               <ProtectedRoute>
                 <ArtistPage />
@@ -99,6 +100,14 @@ export const App = () => {
             element={
               <ProtectedRoute>
                 <PlaylistsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/playlists/:id"
+            element={
+              <ProtectedRoute>
+                <PlaylistPage />
               </ProtectedRoute>
             }
           />
