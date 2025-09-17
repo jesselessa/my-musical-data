@@ -8,20 +8,20 @@ const spotifyApi = axios.create({
 /*
  * === Current User's Data ===
  * These endpoints fetch data related to the currently authenticated user.
+ * They support optional query parameters, such as 'limit', 'offset' or 'time_range', for example
  */
 
 // Get profile data (uses 'user-read-private' and 'user-read-email' scope)
-// The endpoint supports optional 'limit', 'offset', and 'time_range' query parameters.
 export const getProfile = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
     const response = await spotifyApi.get("/me", {
-      headers: { Authorization: authorization },
+      headers: { Authorization: authorization }, // Bearer Token
     });
     res.json(response.data);
   } catch (error) {
     console.error("Error fetching user's profile data:", error.message);
-    next(error); // Propagation to global error handler middleware
+    next(error); // Propagate to global error handler middleware
   }
 };
 
@@ -29,10 +29,10 @@ export const getProfile = async (req, res, next) => {
 export const getTopArtists = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    const { limit, offset, time_range } = req.query;
+    const { time_range } = req.query;
     const response = await spotifyApi.get("/me/top/artists", {
       headers: { Authorization: authorization },
-      params: { limit, offset, time_range },
+      params: { time_range }, // We need it to fetch the data depending a certain time range ("long_term", "medium_term" and short_hand)
     });
     res.json(response.data);
   } catch (error) {
@@ -45,10 +45,10 @@ export const getTopArtists = async (req, res, next) => {
 export const getTopTracks = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    const { limit, offset, time_range } = req.query;
+    const { time_range } = req.query;
     const response = await spotifyApi.get("/me/top/tracks", {
       headers: { Authorization: authorization },
-      params: { limit, offset, time_range },
+      params: { time_range },
     });
     res.json(response.data);
   } catch (error) {
@@ -61,10 +61,8 @@ export const getTopTracks = async (req, res, next) => {
 export const getRecentlyPlayed = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    const { limit, after, before } = req.query;
     const response = await spotifyApi.get("/me/player/recently-played", {
       headers: { Authorization: authorization },
-      params: { limit, after, before },
     });
     res.json(response.data);
   } catch (error) {
@@ -77,10 +75,8 @@ export const getRecentlyPlayed = async (req, res, next) => {
 export const getPlaylists = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    const { limit, offset } = req.query;
     const response = await spotifyApi.get("/me/playlists", {
       headers: { Authorization: authorization },
-      params: { limit, offset },
     });
     res.json(response.data);
   } catch (error) {
@@ -93,10 +89,9 @@ export const getPlaylists = async (req, res, next) => {
 export const getFollowing = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
-    const { limit, offset } = req.query;
     const response = await spotifyApi.get("/me/following", {
       headers: { Authorization: authorization },
-      params: { type: "artist", limit, offset },
+      params: { type: "artist" }, // It's a required parameter
     });
     res.json(response.data);
   } catch (error) {
@@ -121,6 +116,21 @@ export const getArtist = async (req, res, next) => {
     res.json(response.data);
   } catch (error) {
     console.error("Error fetching artist:", error.message);
+    next(error);
+  }
+};
+
+// Get artist's popular tracks
+export const getArtistTopTracks = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    const { id } = req.params;
+    const response = await spotifyApi.get(`/artists/${id}/top-tracks`, {
+      headers: { Authorization: authorization },
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching artist's top tracks:", error.message);
     next(error);
   }
 };
@@ -151,6 +161,53 @@ export const getPlaylist = async (req, res, next) => {
     res.json(response.data);
   } catch (error) {
     console.error("Error fetching playlist:", error.message);
+    next(error);
+  }
+};
+
+// Get playlist items
+export const getPlaylistItems = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    const { id } = req.params;
+    const response = await spotifyApi.get(`/playlists/${id}/tracks`, {
+      headers: { Authorization: authorization },
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching playlist:", error.message);
+    next(error);
+  }
+};
+
+// Retrieve a list of available genre seeds parameter values for recommendations
+export const getGenreSeeds = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    const response = await spotifyApi.get(
+      "/recommendations/available-genre-seeds",
+      {
+        headers: { Authorization: authorization },
+      }
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching genre seeds:", error.message);
+    next(error);
+  }
+};
+
+export const getRecommendations = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    const { seed_artists, seed_genres, seed_tracks } = req.query;
+    const response = await spotifyApi.get("/recommendations", {
+      headers: { Authorization: authorization },
+      params: { seed_artists, seed_genres, seed_tracks }, // Required
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching recommendations:", error.message);
     next(error);
   }
 };

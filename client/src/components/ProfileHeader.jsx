@@ -79,13 +79,21 @@ export const ProfileHeader = () => {
         </div>
         <div className="flex flex-col justify-center items-center gap-2">
           <span className="text-lg text-[#1ed760] font-bold">
-            {isFollowingPending ? "..." : followingCount}
+            {isFollowingPending
+              ? "..."
+              : isFollowingError
+              ? "Error"
+              : followingCount}
           </span>
           <span className="text-sm text-[#9b9b9b]">FOLLOWING</span>
         </div>
         <div className="flex flex-col justify-center items-center gap-2">
           <span className="text-lg text-[#1ed760] font-bold">
-            {isPlaylistsPending ? "..." : playlistsCount}
+            {isPlaylistsPending
+              ? "..."
+              : isPlaylistsError
+              ? "Error"
+              : playlistsCount}
           </span>
           <span className="text-sm text-[#9b9b9b]">
             {playlistsCount === 1 ? "PLAYLIST" : "PLAYLISTS"}

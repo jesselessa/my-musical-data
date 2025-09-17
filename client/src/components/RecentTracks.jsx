@@ -3,7 +3,7 @@ import { AuthContext } from "../contexts/AuthProvider.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { getRecentlyPlayed } from "../api/spotify.js";
 import { Track } from "./Track.jsx";
-import { msToTime } from "../utils/msToTime.js";
+import { msToTime } from "../utils/utils.js";
 import { Loader } from "./Loader.jsx";
 
 export const RecentTracks = () => {
@@ -42,7 +42,7 @@ export const RecentTracks = () => {
   return (
     <div className="flex-1 flex flex-col gap-4">
       {recentData.items.map((item) => (
-        <Track key={item.played_at} track={item.track} />
+        <Track key={item.played_at} track={item.track} /> // Unique key is not ID because we can have many times the same tracks in our history
       ))}
     </div>
   );

@@ -32,14 +32,14 @@ export const TracksList = ({
 
   if (isTracksError)
     return (
-      <div className="flex-1 flex">
+      <div className="flex-1 flex justify-center items-center">
         <p className="text-gray-400">Error loading tracks.</p>
       </div>
     );
 
   if (!tracksData?.items?.length)
     return (
-      <div className="flex-1 flex">
+      <div className="flex-1 flex justify-center items-center">
         <p className="text-gray-400">No tracks to display for this period.</p>
       </div>
     );

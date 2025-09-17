@@ -43,6 +43,7 @@ export const App = () => {
     // Provide the client to our app
     <QueryClientProvider client={queryClient}>
       <Routes>
+        {/* Login */}
         <Route path="/" element={<Login />} />
 
         {/* All pages with common layout */}
@@ -64,7 +65,7 @@ export const App = () => {
             }
           />
           <Route
-            path="artists/:artistId"
+            path="artists/:id"
             element={
               <ProtectedRoute>
                 <ArtistPage />

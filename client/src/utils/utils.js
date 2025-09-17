@@ -15,3 +15,5 @@ export const msToTime = (ms) => {
     return `${pad(minutes)}:${pad(seconds)}`;
   }
 };
+
+export const getYear = (date) => date.split("-")[0];

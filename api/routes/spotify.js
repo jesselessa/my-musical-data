@@ -7,6 +7,7 @@ import {
   getRecentlyPlayed,
   getPlaylists,
   getArtist,
+  getArtistTopTracks,
   getTrack,
   getPlaylist,
 } from "../controllers/spotify.js";
@@ -24,6 +25,7 @@ router.get("/playlists", checkAuthHeader, getPlaylists);
 
 // Spotify catalog
 router.get("/artists/:id", checkAuthHeader, getArtist);
+router.get("/artists/:id/top-tracks", checkAuthHeader, getArtistTopTracks);
 router.get("/tracks/:id", checkAuthHeader, getTrack);
 router.get("/playlists/:id", checkAuthHeader, getPlaylist);
 

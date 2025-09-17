@@ -8,7 +8,7 @@ import { Loader } from "./Loader.jsx";
 export const ArtistsList = ({
   period,
   listWrapperClass,
-  itemComponentProps,
+  itemComponentProps, // Receives the styles object from TopArtists
   itemsLimit,
 }) => {
   const { accessToken } = useContext(AuthContext);
@@ -37,6 +37,13 @@ export const ArtistsList = ({
       </div>
     );
 
+  if (!artistsData?.items?.length)
+    return (
+      <div className="flex-1 flex justify-center items-center">
+        <p className="text-gray-400">No artist to display for this period.</p>
+      </div>
+    );
+
   // Limit the number of displayed artists based on itemsLimit prop
   const itemsToDisplay = artistsData?.items?.slice(0, itemsLimit) || [];
 
@@ -46,7 +53,7 @@ export const ArtistsList = ({
         <Artist
           key={artist.id}
           artist={artist}
-          {...itemComponentProps} // Spread the styles object as props
+          {...itemComponentProps} //* Spread the styles object received from TopArtists as props =  Destructure the objet et pass the props (layout, coverSize, etc.)
         />
       ))}
     </div>

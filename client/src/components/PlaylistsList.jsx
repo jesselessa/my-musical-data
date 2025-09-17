@@ -2,10 +2,10 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { getPlaylists } from "../api/spotify.js";
-import { Playlist } from "./Playlist.jsx";
+import { PlaylistCoverInfo } from "./PlaylistCoverInfo.jsx";
 import { Loader } from "./Loader.jsx";
 
-export const Playlists = () => {
+export const PlaylistsList = () => {
   const { accessToken } = useContext(AuthContext);
 
   const {
@@ -44,10 +44,7 @@ export const Playlists = () => {
     <div className="flex-1 flex flex-wrap">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 xl:grid-cols-5">
         {playlistsData.items.map((playlist) => (
-          <Playlist
-            key={playlist.id}
-            playlist={playlist}
-          />
+          <PlaylistCoverInfo key={playlist.id} playlist={playlist} />
         ))}
       </div>
     </div>

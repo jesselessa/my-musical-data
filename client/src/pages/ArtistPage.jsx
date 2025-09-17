@@ -8,16 +8,18 @@ import { Overlay } from "../components/Overlay.jsx";
 
 export const ArtistPage = () => {
   const { accessToken } = useContext(AuthContext);
-  const { artistId } = useParams();
 
-  // Get artist by ID from the URL parameters
+  // Get ID from the URL segment
+  const { id } = useParams();
+
+  // Fetch artist data
   const {
     data: artistData,
     isPending: isArtistPending,
     isError: isArtistError,
   } = useQuery({
-    queryKey: ["artist", artistId], // Refetch every time the artist ID changes
-    queryFn: () => getArtist(accessToken, artistId),
+    queryKey: ["artist", id], // Refetch every time the artist ID changes
+    queryFn: () => getArtist(accessToken, id),
     enabled: !!accessToken,
   });
 
@@ -30,13 +32,14 @@ export const ArtistPage = () => {
 
   if (isArtistError)
     return (
-      <div className="h-full">
+      <div className="h-full flex justify-center items-center">
         <p>Error loading artist</p>
       </div>
     );
 
   const followersCount = artistData?.followers?.total?.toString() ?? "0";
-  const artistGenres = artistData?.genres.join(", ").toUpperCase() ?? "";
+  const artistGenres =
+    artistData?.genres.join(", ").toUpperCase() ?? "UNDEFINED";
 
   return (
     <section className="h-full flex flex-col justify-center items-center">

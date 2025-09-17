@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-export const TopSummary = ({
+export const Summary = ({
   title,
   category,
   listComponent: ListComponent,
@@ -31,6 +31,7 @@ export const TopSummary = ({
       <header className="flex justify-between items-center mb-5">
         <h2 className="text-lg font-bold">{title}</h2>
         {/* Show the button only if the full list is not already displayed */}
+
         {!showFullList && (
           <button
             onClick={handleSeeMoreClick}
