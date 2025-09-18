@@ -46,7 +46,7 @@ export const TrackPage = () => {
   const trackDuration = msToTime(trackData?.duration_ms);
 
   return (
-    <section className="h-full flex">
+    <section className="h-full flex gap-10">
       <div className="w-2/5 flex flex-col">
         {/* Cover pic */}
         <div className="size-[300px] mb-5">
@@ -74,7 +74,7 @@ export const TrackPage = () => {
           href={`${trackData?.external_urls?.spotify}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-fit text-center text-[#181818] font-semibold rounded-3xl bg-[#1ed760] py-2 px-6 hover:bg-green-500 active:bg-green-500 active:transform active:translate-y-[1px]"
+          className="w-fit text-center text-[#181818] font-semibold rounded-3xl bg-[#1ed760] py-2 px-6 hover:bg-green-600 active:bg-green-500 active:transform active:translate-y-[1px]"
         >
           PLAY IN SPOTIFY
         </a>

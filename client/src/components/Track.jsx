@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { Overlay } from "./Overlay.jsx";
 import { msToTime } from "../utils/utils.js";
+import defaultImg from "../assets/default-cover.jpg";
 
 export const Track = ({ track, coverSize, ...props }) => {
   const albumName = track?.album?.name;
@@ -17,8 +18,8 @@ export const Track = ({ track, coverSize, ...props }) => {
           {/* Cover image */}
           <div className={`relative group ${coverSize}`}>
             <img
-              src={track?.album.images[0]?.url ?? "No album"}
-              alt={track?.name}
+              src={track?.album?.images[0]?.url ?? `${defaultImg}`}
+              alt={track?.name ?? "Unknown track"}
               className={`${coverSize} object-cover object-center`}
             />
             <Overlay />
