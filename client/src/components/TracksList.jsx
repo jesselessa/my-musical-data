@@ -13,12 +13,13 @@ export const TracksList = ({
 }) => {
   const { accessToken } = useContext(AuthContext);
 
+  // Get user's top top tracks depending on period
   const {
     data: tracksData,
     isPending: isTracksPending,
     isError: isTracksError,
   } = useQuery({
-    queryKey: ["tracks", period], // The query key now includes the period to trigger a refetch when the period changes
+    queryKey: ["tracks", period], // The query key includes the period to trigger a refetch when the period changes
     queryFn: () => getTopTracks(accessToken, mapPeriodToTimeRange(period)),
     enabled: !!accessToken,
   });

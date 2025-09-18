@@ -8,6 +8,7 @@ import { Loader } from "./Loader.jsx";
 export const PlaylistsList = () => {
   const { accessToken } = useContext(AuthContext);
 
+  // Fetch user's playlists list
   const {
     data: playlistsData,
     isPending: isPlaylistsPending,

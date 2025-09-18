@@ -2,7 +2,7 @@ import { TopItemsPage } from "../components/TopItemsPage.jsx";
 import { ArtistsList } from "../components/ArtistsList.jsx";
 
 export const TopArtists = () => {
-  // Set props to customize the Artist component inside the list component
+  // Customize Artist component styles
   const artistStyles = {
     layout: "flex-col",
     coverSize: "w-[200px] h-[200px]", // Larger size for the image

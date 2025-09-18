@@ -13,12 +13,13 @@ export const ArtistsList = ({
 }) => {
   const { accessToken } = useContext(AuthContext);
 
+  // Get user's top artists depending on period
   const {
     data: artistsData,
     isPending: isArtistsPending,
     isError: isArtistsError,
   } = useQuery({
-    queryKey: ["artists", period], // The query key now includes the period to trigger a refetch when the period changes
+    queryKey: ["artists", period], // Refetch everytime the period changes
     queryFn: () => getTopArtists(accessToken, mapPeriodToTimeRange(period)),
     enabled: !!accessToken,
   });
@@ -53,7 +54,7 @@ export const ArtistsList = ({
         <Artist
           key={artist.id}
           artist={artist}
-          {...itemComponentProps} //* Spread the styles object received from TopArtists as props =  Destructure the objet et pass the props (layout, coverSize, etc.)
+          {...itemComponentProps} // Spread the styles object received from parent
         />
       ))}
     </div>

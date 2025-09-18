@@ -11,8 +11,8 @@ export const Login = () => {
       <h1 className="text-4xl font-bold mb-5">My Spotify Data</h1>
 
       <p className="max-w-[60%] text-xl text-[#9b9b9b] mb-4">
-        My Spotify Data is a web application that helps Spotify users visualize
-        their listening habits and get personalized recommendations.
+        My Spotify Data is a web application that helps users visualize their
+        main listening habits in Spotify.
       </p>
 
       {error && <p className="text-xl text-red-500 mb-6">{error}</p>}

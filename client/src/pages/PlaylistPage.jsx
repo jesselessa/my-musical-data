@@ -50,49 +50,50 @@ export const PlaylistPage = () => {
   const formattedDuration = msToTime(totalDurationMs);
 
   return (
-    <section className="h-full flex flex-col">
-      <div className="flex-1 flex gap-10">
-        {/* Cover pic and details */}
-        <div className="w-2/5 flex flex-col items-center text-center px-5">
-          {/* Cover pic */}
-          <div className="size-[300px] mb-5">
-            <img
-              src={`${playlistData?.images?.[0]?.url}`}
-              alt={`${playlistData?.name}`}
-              className="size-full object-cover object-center"
-            />
-          </div>
+    <section className="h-full flex gap-10">
+      {/* Cover pic and details */}
+      <div className="w-2/5 flex flex-col">
+        {/* Cover pic */}
+        <div className="size-[300px] mb-5">
+          <img
+            src={`${playlistData?.images?.[0]?.url}`}
+            alt={`${playlistData?.name}`}
+            className="size-full object-cover object-center"
+          />
+        </div>
 
-          {/* Details */}
-          <div className="flex flex-col items-center">
-            {/* Name */}
-            <div className="text-2xl font-bold mb-1">{playlistData?.name}</div>
-            {/* Owner */}
-            <div className="text-xl text-[#b9b9b9] mb-2">
-              By {playlistData?.owner.display_name}
+        {/* Details */}
+        <div className="flex flex-col mb-8">
+          {/* Name */}
+          <div className="text-3xl font-bold mb-1">{playlistData?.name}</div>
+          {/* Owner */}
+          <div className="text-xl text-[#b9b9b9] font-semibold mb-2">
+            By {playlistData?.owner.display_name}
+          </div>
+          {/* Description */}
+          {playlistData?.description && (
+            <div className="text-lg text-[#b9b9b9] mb-3">
+              {playlistData.description}
             </div>
-            {/* Description */}
-            {playlistData?.description && (
-              <div className="text-[#b9b9b9] mb-3">
-                {playlistData.description}
-              </div>
-            )}
-            {/* Tracks number and total duration */}
-            <div className="text-sm">
-              {tracksNumber} • {formattedDuration}
-            </div>
-            {/* Button Play */}
-            <a
-              href={`${playlistData?.external_urls?.spotify}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-fit text-center text-[#181818] font-semibold rounded-3xl bg-[#1ed760] py-2 px-6 hover:bg-green-500 active:bg-green-500 active:transform active:translate-y-[1px] mt-8"
-            >
-              OPEN IN SPOTIFY
-            </a>
+          )}
+          {/* Tracks number and total duration */}
+          <div className="text-sm">
+            {tracksNumber} • {formattedDuration}
           </div>
         </div>
 
+        {/* Button Play */}
+        <a
+          href={`${playlistData?.external_urls?.spotify}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-fit text-center text-[#181818] font-semibold rounded-3xl bg-[#1ed760] py-2 px-6 hover:bg-green-500 active:bg-green-500 active:transform active:translate-y-[1px]"
+        >
+          OPEN IN SPOTIFY
+        </a>
+      </div>
+
+      <div className="w-3/5">
         <PlaylistItems playlist={playlistData} />
       </div>
     </section>

@@ -10,6 +10,7 @@ import {
   getArtistTopTracks,
   getTrack,
   getPlaylist,
+  getPlaylistItems,
 } from "../controllers/spotify.js";
 import { checkAuthHeader } from "../middlewares/auth.js";
 
@@ -28,5 +29,6 @@ router.get("/artists/:id", checkAuthHeader, getArtist);
 router.get("/artists/:id/top-tracks", checkAuthHeader, getArtistTopTracks);
 router.get("/tracks/:id", checkAuthHeader, getTrack);
 router.get("/playlists/:id", checkAuthHeader, getPlaylist);
+router.get("/playlists/:id/tracks", checkAuthHeader, getPlaylistItems);
 
 export default router;

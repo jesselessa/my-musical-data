@@ -5,11 +5,12 @@ export const Summary = ({
   category,
   listComponent: ListComponent,
   listWrapperClass,
+  itemComponentProps,
+  items,
+  showFullList,
+  setShowFullList,
+  itemsLimit,
 }) => {
-  // By default, we show a short list with only 10 items
-  // When the user clicks "See More", we show a full list with 20 items
-  const [showFullList, setShowFullList] = useState(false);
-
   // With "useRef", we create a mutable reference that persists throughout the component lifecycle, without re-rendering when its value changes
   const listEndRef = useRef();
 
@@ -18,7 +19,8 @@ export const Summary = ({
     setShowFullList(true);
 
     //! State updates in React, like setShowFullList(true), are asynchronous.
-    // This means the DOM isn't updated instantly, so an immediate call to scrollIntoView() might fail because the target element isn't rendered yet. We use setTimeout with a 0ms delay to ensure DOM has been updated
+    // This means the DOM isn't updated instantly, so an immediate call to scrollIntoView() might fail because the target element isn't rendered yet
+    // We use setTimeout with a 0ms delay to ensure DOM has been updated
     setTimeout(() => {
       listEndRef.current.scrollIntoView({
         behavior: "smooth",
@@ -31,7 +33,6 @@ export const Summary = ({
       <header className="flex justify-between items-center mb-5">
         <h2 className="text-lg font-bold">{title}</h2>
         {/* Show the button only if the full list is not already displayed */}
-
         {!showFullList && (
           <button
             onClick={handleSeeMoreClick}
@@ -42,10 +43,12 @@ export const Summary = ({
         )}
       </header>
 
-      {/* By default, shows a Top 10 list */}
+      {/* Pass props to the child components (either ArtistsList, TracksList or PopularTracks)  */}
       <ListComponent
         category={category}
         listWrapperClass={listWrapperClass}
+        itemComponentProps={itemComponentProps}
+        items={items}
         itemsLimit={showFullList ? 20 : 10}
       />
 

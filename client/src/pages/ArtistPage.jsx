@@ -39,7 +39,9 @@ export const ArtistPage = () => {
 
   const followersCount = artistData?.followers?.total?.toString() ?? "0";
   const artistGenres =
-    artistData?.genres.join(", ").toUpperCase() ?? "UNDEFINED";
+    artistData?.genres?.length > 0
+      ? artistData.genres.join(", ").toUpperCase()
+      : "UNDEFINED";
 
   return (
     <section className="h-full flex flex-col justify-center items-center">

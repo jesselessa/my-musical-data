@@ -1,22 +1,20 @@
 import { useContext } from "react";
-import { useParams } from "react-router";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
+import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { getTrack, getArtistTopTracks } from "../api/spotify.js";
+import { getTrack } from "../api/spotify.js";
 import { msToTime, getYear } from "../utils/utils.js";
 import { Loader } from "../components/Loader.jsx";
 import { Overlay } from "../components/Overlay.jsx";
 import { Summary } from "../components/Summary.jsx";
-import { Recommendations } from "../components/Recommendations.jsx";
-import { RecommendationsBis } from "../components/RecommendationsBis.jsx";
+import { PopularTracks } from "../components/PopularTracks.jsx";
 
 export const TrackPage = () => {
   const { accessToken } = useContext(AuthContext);
 
-  // Get ID from the URL segment
-  const { id } = useParams(); // Track id
+  // Get track ID from the URL segment
+  const { id } = useParams();
 
-  // Fetch track data
   const {
     data: trackData,
     isPending: isTrackPending,
@@ -24,29 +22,17 @@ export const TrackPage = () => {
   } = useQuery({
     queryKey: ["track", id], // Refetch every time the track ID changes
     queryFn: () => getTrack(accessToken, id),
-    enabled: !!accessToken,
+    enabled: !!accessToken, // Fetch data only if token available
   });
 
-  // Fetch popular artist's tracks using the artist's ID from trackData
-  const artistId = trackData?.artists?.[0]?.id;
-  const {
-    data: popularTracksData,
-    isPending: isPopularTracksPending,
-    isError: isPopularTracksError,
-  } = useQuery({
-    queryKey: ["popularTracks", artistId],
-    queryFn: () => getArtistTopTracks(accessToken, artistId),
-    enabled: !!artistId, //* Fetch only if artistId is available (because the data here only depend on the existence of trackData)
-  });
-
-  if (isTrackPending || isPopularTracksPending)
+  if (isTrackPending)
     return (
       <div className="h-full flex justify-center items-center">
         <Loader />
       </div>
     );
 
-  if (isTrackError || isPopularTracksError)
+  if (isTrackError)
     return (
       <div className="h-full flex justify-center items-center">
         <p>Error while fetching data</p>
@@ -60,10 +46,10 @@ export const TrackPage = () => {
   const trackDuration = msToTime(trackData?.duration_ms);
 
   return (
-    <section className="h-full flex flex-col">
-      <div className="flex gap-10 mb-12">
+    <section className="h-full flex">
+      <div className="w-2/5 flex flex-col">
         {/* Cover pic */}
-        <div className="size-[250px]">
+        <div className="size-[300px] mb-5">
           <img
             src={`${trackData?.album?.images[0]?.url}`}
             alt={`${trackData.name}`}
@@ -72,39 +58,33 @@ export const TrackPage = () => {
         </div>
 
         {/* Details */}
-        <div className="flex flex-col gap-3">
-          <div className="text-4xl font-bold">{trackData.name}</div>
-          <div className="text-2xl text-[#b9b9b9] font-bold">{artistName}</div>
+        <div className="flex flex-col gap-2 mb-8">
+          <div className="text-3xl font-bold">{trackData.name}</div>
+          <div className="text-xl text-[#b9b9b9] font-semibold">
+            {artistName}
+          </div>
           <div className="text-lg text-[#b9b9b9]">
             {albumName} &bull; {albumYear}
           </div>
           <div className="text-base mb-2">{trackDuration}</div>
-
-          {/* Button Play */}
-          <a
-            href={`${trackData?.external_urls?.spotify}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-fit text-center text-[#181818] font-semibold rounded-3xl bg-[#1ed760] py-2 px-6 hover:bg-green-500 active:bg-green-500 active:transform active:translate-y-[1px]"
-          >
-            PLAY ON SPOTIFY
-          </a>
         </div>
+
+        {/* Button Play */}
+        <a
+          href={`${trackData?.external_urls?.spotify}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-fit text-center text-[#181818] font-semibold rounded-3xl bg-[#1ed760] py-2 px-6 hover:bg-green-500 active:bg-green-500 active:transform active:translate-y-[1px]"
+        >
+          PLAY IN SPOTIFY
+        </a>
       </div>
 
-      <div className="flex-1 flex gap-12 p-2">
-        <Summary
-          title="Popular Tracks By The Same Artist"
-          listComponent={Recommendations}
-          listWrapperClass="flex flex-col gap-4"
-          items={popularTracksData}
-        />
-        <Summary
-          title="Related Artists"
-          listComponent={RecommendationsBis}
-          listWrapperClass="flex flex-col gap-4"
-          items=""
-        />
+      <div className="w-3/5">
+        <h2 className="text-lg font-bold text-white mb-5">
+          Popular Tracks By The Same Artist
+        </h2>
+        <PopularTracks items={trackData} />
       </div>
     </section>
   );

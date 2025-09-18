@@ -135,6 +135,21 @@ export const getArtistTopTracks = async (req, res, next) => {
   }
 };
 
+// Get related artists
+export const getRelatedArtists = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    const { id } = req.params;
+    const response = await spotifyApi.get(`/artists/${id}/related-artists`, {
+      headers: { Authorization: authorization },
+    });
+    res.json(response.data);
+  } catch (error) {
+    console.error("Error fetching artist's top tracks:", error.message);
+    next(error);
+  }
+};
+
 // Get a track by ID
 export const getTrack = async (req, res, next) => {
   try {
@@ -176,38 +191,6 @@ export const getPlaylistItems = async (req, res, next) => {
     res.json(response.data);
   } catch (error) {
     console.error("Error fetching playlist:", error.message);
-    next(error);
-  }
-};
-
-// Retrieve a list of available genre seeds parameter values for recommendations
-export const getGenreSeeds = async (req, res, next) => {
-  try {
-    const { authorization } = req.headers;
-    const response = await spotifyApi.get(
-      "/recommendations/available-genre-seeds",
-      {
-        headers: { Authorization: authorization },
-      }
-    );
-    res.json(response.data);
-  } catch (error) {
-    console.error("Error fetching genre seeds:", error.message);
-    next(error);
-  }
-};
-
-export const getRecommendations = async (req, res, next) => {
-  try {
-    const { authorization } = req.headers;
-    const { seed_artists, seed_genres, seed_tracks } = req.query;
-    const response = await spotifyApi.get("/recommendations", {
-      headers: { Authorization: authorization },
-      params: { seed_artists, seed_genres, seed_tracks }, // Required
-    });
-    res.json(response.data);
-  } catch (error) {
-    console.error("Error fetching recommendations:", error.message);
     next(error);
   }
 };

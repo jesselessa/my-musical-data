@@ -2,13 +2,12 @@ import { Link } from "react-router";
 import { Overlay } from "./Overlay.jsx";
 import { msToTime } from "../utils/utils.js";
 
-export const Track = ({ track, ...props }) => {
+export const Track = ({ track, coverSize, ...props }) => {
   const albumName = track?.album?.name;
   const artistsString = track?.artists?.map((artist) => artist.name).join(", ");
   const nameAndAlbum = albumName
     ? `${artistsString} • ${albumName}`
     : artistsString;
-  const coverSize = props.coverSize || "w-16 h-16";
 
   return (
     <Link to={`/tracks/${track?.id}`}>
