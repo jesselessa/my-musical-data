@@ -24,7 +24,7 @@ const SPOTIFY_TOKEN_API = "https://accounts.spotify.com/api/token";
  */
 const baseCookieOptions = {
   httpOnly: true,
-  sameSite: "lax",
+  sameSite: "lax", //TODO - Change to "non" in prod
   secure: process.env.NODE_ENV === "production",
 };
 

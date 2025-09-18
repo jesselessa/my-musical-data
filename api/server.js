@@ -10,54 +10,43 @@ import history from "connect-history-api-fallback";
 import authRoutes from "./routes/auth.js";
 import spotifyRoutes from "./routes/spotify.js";
 
-// Creates an Express application
+// Create an Express app
 const app = express();
-const PORT = process.env.PORT || 3006;
+const PORT = process.env.PORT;
 
-// For ES modules, this helps resolve file paths relative to the current file
+// Resolve __dirname for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// --- Middlewares ---
-// Parses incoming requests with JSON payloads (req.body)
+// === Middlewares ===
+// Parse JSON request bodies
 app.use(express.json());
 
-// Enables Cross-Origin Resource Sharing (CORS) for the specified client URL
+// Use CORS middleware
+const allowedOrigins = [process.env.CLIENT_URL];
 app.use(
   cors({
-    origin: [process.env.CLIENT_URL],
-    credentials: true, // Allows cookies
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true, // Allow cookies
   })
 );
 
-// Parses cookies attached to the client request object (req.cookies)
+// Parse cookies from requests
 app.use(cookieParser());
 
 // API routes
-app.use("/api/auth", authRoutes); // Authentication
-app.use("/api/spotify", spotifyRoutes); // Spotify data routes
+app.use("/api/auth", authRoutes);
+app.use("/api/spotify", spotifyRoutes);
 
-// Production configuration for serving static files
+// Production setup for static files
 if (process.env.NODE_ENV === "production") {
-  // Serves all static files from the client's build directory
   app.use(express.static(path.join(__dirname, "../client/dist")));
 
-  // Middleware to serve a single-page app (SPA) correctly
-  // It rewrites requests to the client's index.html file, which is necessary for client-side routing
-  app.use(
-    history({
-      verbose: true,
-      rewrites: [
-        // These rewrites ensure that the server doesn't return a 404 for client-side routes
-        // For example, if a user navigates directly to /login, this will serve the root index.html
-        { from: /\/login/, to: "/login" },
-        { from: /\/callback/, to: "/callback" },
-        { from: /\/refresh/, to: "/refresh" },
-      ],
-    })
-  );
+  // Handle client-side routing for Single-Page Applications (SPA)
+  app.use(history({ verbose: true }));
 
-  // Catch-all route for any requests not handled by previous routes
+  // Serve the SPA's index.html for unknown routes server side
   app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
   });
@@ -72,4 +61,10 @@ app.use((err, req, res, next) => {
 });
 
 // Start the server
-app.listen(PORT, console.log(`✅ Server running on port ${PORT}`));
+app.listen(PORT, (error) => {
+  if (error) {
+    console.error("❌ Error connecting to server:", error);
+  } else {
+    console.log(`✅ Server running on port ${process.env.PORT}`);
+  }
+});

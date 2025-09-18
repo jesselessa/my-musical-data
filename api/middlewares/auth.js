@@ -1,6 +1,6 @@
 /*
  * === Middleware checking for the Authorization header ===
- * Good practice to ensure the token is present before
+ * Meant to ensure the token is present before
  * making any calls to Spotify API
  */
 
