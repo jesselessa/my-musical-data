@@ -23,7 +23,6 @@ export const PopularTracks = ({
     queryFn: () => getArtistTopTracks(accessToken, artistId),
     enabled: !!artistId, // Fetch data only if artistId is available (popularTracksData only exists because of trackData)
   });
-  console.log("Popular tracks:", popularTracksData);
 
   if (isPopularTracksPending)
     return (

@@ -1,10 +1,12 @@
-//! Our app uses 'Authorization Code Flow'(app acting in the name of user) :
-//! 1 - Redirection to Spotify login page
-//! 2 - User gives its permission
-//! 3 - Spotify sends back an authorization code to our server
-//! 4 - Our server exchanges this code for an access token and a refresh token
-
-//! ⚠️ ≠ 'Client Credentials Flow' is a server-to-server flow where the application requests an access token using only its client_id and client_secret. It is used to access certain data without requiring user login
+/*
+ * Our app uses 'Authorization Code Flow'(app acting in the name of the user) :
+ * 1 - Redirection to Spotify login page
+ * 2 - User gives its permission
+ * 3 - Spotify sends back an authorization code to our server
+ * 4 - Our server exchanges this code for an access token and a refresh token
+ *
+ * ⚠️ ≠ 'Client Credentials Flow' is a server-to-server flow where the application requests an access token using only its client_id and client_secret. It is used to access certain data without requiring user login
+ */
 
 import axios from "axios";
 import { generateRandomString } from "../utils/generateRandomString.js";
@@ -14,17 +16,18 @@ const stateKey = "spotify_auth_state";
 // Key for the secure cookie that stores the refresh token
 const refreshKey = "spotify_refresh_token";
 
-const SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize";
-const SPOTIFY_TOKEN_API = "https://accounts.spotify.com/api/token";
+const SPOTIFY_AUTH_URL = process.env.SPOTIFY_AUTH_URL;
+const SPOTIFY_TOKEN_API = process.env.SPOTIFY_TOKEN_API;
+
 /*
  * === Base cookie options for security ===
-/ httpOnly: prevents client-side scripts from accessing the cookie
-/ sameSite: protects against cross-site request forgery (CSRF) attacks
-/ secure: ensures the cookie is only sent over HTTPS in production
+ * httpOnly: prevents client-side scripts from accessing the cookie
+ * sameSite: protects against cross-site request forgery (CSRF) attacks
+ * secure: ensures the cookie is only sent over HTTPS in production
  */
 const baseCookieOptions = {
   httpOnly: true,
-  sameSite: "lax", //TODO - Change to "non" in prod
+  sameSite: "lax",
   secure: process.env.NODE_ENV === "production",
 };
 
@@ -49,6 +52,7 @@ export const login = (req, res) => {
     state: state,
   });
 
+  //* Note: when our server responds with a redirection, the browser receives a "HTTP 302 Found" status code : the browser must make a new request to the provided URL immediately
   res.redirect(`${SPOTIFY_AUTH_URL}?${params.toString()}`);
 };
 
@@ -106,8 +110,7 @@ export const callback = async (req, res, next) => {
       }).toString()}`
     );
   } catch (error) {
-    // Instead of handling the error directly, pass it to the global error handler
-    // This allows centralized logging and error management.
+    // Error passed to the global error handler
     next(error);
   }
 };
@@ -117,12 +120,12 @@ export const callback = async (req, res, next) => {
  */
 export const refresh = async (req, res, next) => {
   // Retrieves the refresh token from the httpOnly cookie
-  const refresh_token = req.cookies ? req.cookies[refreshKey] : null;
+  const refresh_token_cookie = req.cookies ? req.cookies[refreshKey] : null;
 
   // Returns an error if the refresh token is not found
-  if (!refresh_token) {
+  if (!refresh_token_cookie) {
     // This is a specific logical error, handled directly
-    return res.status(401).json({ error: "no_refresh_token" });
+    return res.status(401).json({ error: "no_refresh_token_cookie" });
   }
 
   try {
@@ -131,7 +134,7 @@ export const refresh = async (req, res, next) => {
       SPOTIFY_TOKEN_API,
       new URLSearchParams({
         grant_type: "refresh_token",
-        refresh_token,
+        refresh_token: refresh_token_cookie,
       }).toString(),
       {
         headers: {
@@ -146,10 +149,8 @@ export const refresh = async (req, res, next) => {
     const { access_token } = response.data;
 
     // Sends the new access token to the client
-    res.status(200).json({ access_token });
+    res.status(200).json({ access_token }); //* Note: we set a status code here because /refresh is an API endpoint
   } catch (error) {
-    // Instead of handling the error directly, pass it to the global error handler
-    // This allows centralized logging and error management
     next(error);
   }
 };
