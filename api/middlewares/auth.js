@@ -11,5 +11,6 @@ export const checkAuthHeader = (req, res, next) => {
   if (!authorization) {
     return res.status(401).json({ error: "Authorization header is missing" });
   }
+  req.token = authorization; // Stores token for the next functions
   next();
 };
