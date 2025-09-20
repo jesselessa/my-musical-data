@@ -14,9 +14,9 @@ export const Navbar = () => {
         <NavLink
           to="/profile"
           className={({ isActive }) =>
-            `p-2 flex flex-col justify-center items-center hover:bg-[#181818] hover:border-t-4  md:hover:border-l-4  hover:border-[rgb(30,215,96)] hover:text-white ${
+            `p-2 flex flex-col justify-center items-center md:hover:bg-[#181818] md:hover:border-l-4  hover:border-[rgb(30,215,96)] hover:text-white ${
               isActive
-                ? "border-t-4 md:border-l-4 border-[#1ed760] bg-[#181818] text-white"
+                ? "border-t-4 md:border-t-0 md:border-l-4 border-[#1ed760] bg-[#181818] text-white"
                 : ""
             }`
           }
@@ -30,9 +30,9 @@ export const Navbar = () => {
         <NavLink
           to="/artists"
           className={({ isActive }) =>
-            `p-2 flex flex-col justify-center items-center hover:bg-[#181818] hover:border-t-4  md:hover:border-l-4  hover:border-[rgb(30,215,96)] hover:text-white ${
+            `p-2 flex flex-col justify-center items-center md:hover:bg-[#181818] md:hover:border-l-4  hover:border-[rgb(30,215,96)] hover:text-white ${
               isActive
-                ? "border-t-4 md:border-l-4 border-[#1ed760] bg-[#181818] text-white"
+                ? "border-t-4 md:border-t-0 md:border-l-4 border-[#1ed760] bg-[#181818] text-white"
                 : ""
             }`
           }
@@ -46,9 +46,9 @@ export const Navbar = () => {
         <NavLink
           to="/tracks"
           className={({ isActive }) =>
-            `p-2 flex flex-col justify-center items-center hover:bg-[#181818] hover:border-t-4  md:hover:border-l-4  hover:border-[rgb(30,215,96)] hover:text-white ${
+            `p-2 flex flex-col justify-center items-center md:hover:bg-[#181818] md:hover:border-l-4  hover:border-[rgb(30,215,96)] hover:text-white ${
               isActive
-                ? "border-t-4 md:border-l-4 border-[#1ed760] bg-[#181818] text-white"
+                ? "border-t-4 md:border-t-0 md:border-l-4 border-[#1ed760] bg-[#181818] text-white"
                 : ""
             }`
           }
@@ -62,9 +62,9 @@ export const Navbar = () => {
         <NavLink
           to="/recent"
           className={({ isActive }) =>
-            `p-2 flex flex-col justify-center items-center hover:bg-[#181818] hover:border-t-4  md:hover:border-l-4  hover:border-[rgb(30,215,96)] hover:text-white ${
+            `p-2 flex flex-col justify-center items-center md:hover:bg-[#181818] md:hover:border-l-4  hover:border-[rgb(30,215,96)] hover:text-white ${
               isActive
-                ? "border-t-4 md:border-l-4 border-[#1ed760] bg-[#181818] text-white"
+                ? "border-t-4 md:border-t-0 md:border-l-4 border-[#1ed760] bg-[#181818] text-white"
                 : ""
             }`
           }
@@ -78,9 +78,9 @@ export const Navbar = () => {
         <NavLink
           to="/playlists"
           className={({ isActive }) =>
-            `p-2 flex flex-col justify-center items-center hover:bg-[#181818] hover:border-t-4  md:hover:border-l-4  hover:border-[rgb(30,215,96)] hover:text-white ${
+            `p-2 flex flex-col justify-center items-center md:hover:bg-[#181818] md:hover:border-l-4  hover:border-[rgb(30,215,96)] hover:text-white ${
               isActive
-                ? "border-t-4 md:border-l-4 border-[#1ed760] bg-[#181818] text-white"
+                ? "border-t-4 md:border-t-0 md:border-l-4 border-[#1ed760] bg-[#181818] text-white"
                 : ""
             }`
           }
