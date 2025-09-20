@@ -46,7 +46,7 @@ export const RecentTracks = () => {
     <div className="flex-1 flex flex-col gap-4">
       {recentData.items.map((item) => (
         <Track
-          //! Unique key is not ID because we can have many times the same track in our history
+          // Unique key is not ID because we can have many times the same track in our history
           key={item.played_at}
           track={item.track}
           coverSize="size-16"

@@ -85,7 +85,7 @@ export const TrackPage = () => {
         <h2 className="text-lg font-bold text-white mb-5">
           Popular Tracks By The Same Artist
         </h2>
-        <PopularTracks items={trackData} />
+        <PopularTracks trackData={trackData} />
       </div>
     </section>
   );

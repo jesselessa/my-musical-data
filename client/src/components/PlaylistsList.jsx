@@ -35,7 +35,7 @@ export const PlaylistsList = () => {
       </div>
     );
 
-  if (!playlistsData?.items?.length)
+  if (!playlistsData?.items?.length || playlistsData?.items?.length === 0)
     return (
       <div>
         <p className="text-lg">You have no playlists.</p>

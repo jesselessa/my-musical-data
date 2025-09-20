@@ -6,12 +6,12 @@ import { Track } from "./Track.jsx";
 import { Loader } from "./Loader.jsx";
 
 export const PopularTracks = ({
-  items, // Track data
+  trackData,
 }) => {
   const { accessToken } = useContext(AuthContext);
 
   // Get artist's ID from track data
-  const artistId = items?.artists?.[0]?.id;
+  const artistId = trackData?.artists?.[0]?.id;
 
   // Fetch popular artist's tracks
   const {

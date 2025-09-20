@@ -7,7 +7,7 @@ import { Navbar } from "../components/Navbar.jsx";
 export const Layout = () => {
   const { userProfile } = useContext(AuthContext);
   return (
-    <div className="h-screen flex">
+    <div className="h-screen flex flex-col md:flex-row">
       <Navbar userProfile={userProfile} />
 
       {/* Outlet acts as a placeholder where the child routes defined in the React Router configuration will be rendered */}

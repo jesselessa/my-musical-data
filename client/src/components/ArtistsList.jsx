@@ -40,7 +40,7 @@ export const ArtistsList = ({
       </div>
     );
 
-  if (!artistsData?.items?.length)
+  if (!artistsData?.items?.length || artistsData?.items?.length === 0)
     return (
       <div>
         <p className="text-lg">No artists to display for this period.</p>
