@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
       // Clear URL to remove the token hash
       window.history.replaceState({}, document.title, window.location.pathname);
 
-      // Redirect to /profile page
+      // Redirect to Profile page
       navigate("/profile");
     } else {
       const storedToken = localStorage.getItem("access_token");
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
         setAccessToken(storedToken);
       } else {
         setLoading(false);
-        setError("You need to log in to get started.");
+        setError("You need to be authenticated to get started.");
       }
     }
   }, []);

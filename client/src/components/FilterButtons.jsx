@@ -12,7 +12,9 @@ export const FilterButtons = ({ selectedPeriod, setSelectedPeriod }) => {
             hover:text-white hover:font-semi-bold 
             cursor-pointer
             ${
-              period === selectedPeriod ? "text-white font-bold border-b-2" : ""
+              period === selectedPeriod
+                ? "text-white font-bold underline underline-offset-5"
+                : ""
             }
           `}
         >

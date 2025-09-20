@@ -2,10 +2,17 @@ import { useContext } from "react";
 import { useParams } from "react-router";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 import { useQuery } from "@tanstack/react-query";
-import { getPlaylist } from "../api/spotify.js";
+import { catalog } from "../api/spotify.js";
 import { msToTime } from "../utils/utils.js";
 import { Loader } from "../components/Loader.jsx";
 import { PlaylistItems } from "../components/PlaylistItems.jsx";
+import defaultCover from "../assets/default-cover.jpg";
+
+// Utilitary function to decode HTML entities : it creates a temporary element in which the encoded string is inserted, then, extracts the textContext from this element => no XSS vulnerabilities
+const decodeHtml = (html) => {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.documentElement.textContent;
+};
 
 export const PlaylistPage = () => {
   const { accessToken } = useContext(AuthContext);
@@ -18,9 +25,10 @@ export const PlaylistPage = () => {
     data: playlistData,
     isPending: isPlaylistPending,
     isError: isPlaylistError,
+    error: playlistError,
   } = useQuery({
     queryKey: ["playlist", id], // Refetch every time the playlist ID changes
-    queryFn: () => getPlaylist(accessToken, id),
+    queryFn: () => catalog.getPlaylist(accessToken, id),
     enabled: !!accessToken,
   });
 
@@ -33,17 +41,21 @@ export const PlaylistPage = () => {
 
   if (isPlaylistError)
     return (
-      <section className="h-full flex justify-center items-center">
-        <p>Error loading playlist</p>
+      <section>
+        <p className="text-lg">{playlistError.message}</p>
       </section>
     );
 
-  const tracksNumber = `${playlistData?.tracks?.total} ${
-    playlistData?.tracks?.total === 1 ? "TRACK" : "TRACKS"
-  }`;
+  const tracksNumber =
+    playlistData?.tracks?.total === 0
+      ? "NO TRACK"
+      : `${playlistData?.tracks?.total} ${
+          playlistData?.tracks?.total === 1 ? "TRACK" : "TRACKS"
+        }`;
+
   // Total playlist duration : we add together every track duration in the playlist in order to obtain a single value
   const totalDurationMs = playlistData?.tracks?.items?.reduce(
-    (acc, item) => acc + (item.track?.duration_ms || 0),
+    (accumulator, item) => accumulator + (item.track?.duration_ms || 0),
     0 // Initial value = 0
   );
 
@@ -56,7 +68,7 @@ export const PlaylistPage = () => {
         {/* Cover pic */}
         <div className="size-[300px] mb-5">
           <img
-            src={`${playlistData?.images?.[0]?.url}`}
+            src={playlistData?.images?.[0]?.url || defaultCover}
             alt={`${playlistData?.name}`}
             className="size-full object-cover object-center"
           />
@@ -68,12 +80,12 @@ export const PlaylistPage = () => {
           <div className="text-3xl font-bold mb-1">{playlistData?.name}</div>
           {/* Owner */}
           <div className="text-xl text-[#b9b9b9] font-semibold mb-2">
-            By {playlistData?.owner.display_name}
+            By {playlistData?.owner?.display_name}
           </div>
           {/* Description */}
           {playlistData?.description && (
             <div className="text-lg text-[#b9b9b9] mb-3">
-              {playlistData.description}
+              {decodeHtml(playlistData.description)}
             </div>
           )}
           {/* Tracks number and total duration */}
@@ -94,7 +106,13 @@ export const PlaylistPage = () => {
       </div>
 
       <div className="w-3/5">
-        <PlaylistItems playlist={playlistData} />
+        {!playlistData?.tracks?.total ? (
+          <div>
+            <p className="text-center text-lg">Your playlist is empty</p>
+          </div>
+        ) : (
+          <PlaylistItems playlist={playlistData} />
+        )}
       </div>
     </section>
   );

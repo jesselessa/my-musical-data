@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { getTrack } from "../api/spotify.js";
+import { catalog } from "../api/spotify.js";
 import { msToTime, getYear } from "../utils/utils.js";
 import { Loader } from "../components/Loader.jsx";
 import { Overlay } from "../components/Overlay.jsx";
@@ -19,9 +19,10 @@ export const TrackPage = () => {
     data: trackData,
     isPending: isTrackPending,
     isError: isTrackError,
+    error: trackError,
   } = useQuery({
     queryKey: ["track", id], // Refetch every time the track ID changes
-    queryFn: () => getTrack(accessToken, id),
+    queryFn: () => catalog.getTrack(accessToken, id),
     enabled: !!accessToken, // Fetch data only if token available
   });
 
@@ -34,8 +35,8 @@ export const TrackPage = () => {
 
   if (isTrackError)
     return (
-      <div className="h-full flex justify-center items-center">
-        <p>Error while fetching data</p>
+      <div>
+        <p className="text-lg">{trackError.message}</p>
       </div>
     );
 

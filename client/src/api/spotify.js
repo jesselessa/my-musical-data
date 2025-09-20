@@ -4,94 +4,49 @@ export const spotifyApi = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api/spotify`,
 });
 
-//* 1 === User's habits ===
-
-// Helper function to map the user-friendly period strings to Spotify's API time range values
-export const mapPeriodToTimeRange = (period) => {
-  switch (period) {
-    case "Last 4 Weeks":
-      return "short_term";
-    case "Last 6 Months":
-      return "medium_term";
-    case "All Time":
-      return "long_term";
-    default:
-      return "long_term";
+// Generic function to handle GET requests with the token
+const fetchData = async (token, url, params = {}) => {
+  try {
+    const { data } = await spotifyApi.get(url, {
+      headers: { Authorization: `Bearer ${token}` },
+      params,
+    });
+    return data;
+  } catch (error) {
+    console.error(`Error fetching data from ${url}:`, error);
+    throw error; // Propagate error to the code which called the function
   }
 };
 
-export const getTopTracks = async (token, timeRange) => {
-  const { data } = await spotifyApi.get("/tracks", {
-    headers: { Authorization: `Bearer ${token}` },
-    params: { time_range: timeRange },
-  });
-  return data;
+// Periods mapping
+export const PERIODS = {
+  "Last 4 Weeks": "short_term",
+  "Last 6 Months": "medium_term",
+  "All Time": "long_term",
 };
 
-export const getTopArtists = async (token, timeRange) => {
-  const { data } = await spotifyApi.get("/artists", {
-    headers: { Authorization: `Bearer ${token}` },
-    params: { time_range: timeRange },
-  });
-  return data;
+export const mapPeriodToTimeRange = (period) => {
+  return PERIODS[period] || PERIODS["All Time"];
 };
 
-export const getFollowing = async (token) => {
-  const { data } = await spotifyApi.get("/following", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return data;
+// Functions gathered by their object
+export const user = {
+  getTopTracks: (token, timeRange) =>
+    fetchData(token, "/tracks", { time_range: timeRange }),
+  getTopArtists: (token, timeRange) =>
+    fetchData(token, "/artists", { time_range: timeRange }),
+  getFollowing: (token) => fetchData(token, "/following"),
+  getPlaylists: (token) => fetchData(token, "/playlists"),
+  getRecentlyPlayed: (token) => fetchData(token, "/recent"),
 };
 
-export const getPlaylists = async (token) => {
-  const { data } = await spotifyApi.get("/playlists", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return data;
-};
-
-export const getRecentlyPlayed = async (token) => {
-  const { data } = await spotifyApi.get("/recent", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return data;
-};
-
-//*=== Spotify Catalog ===
-
-export const getArtist = async (token, artistId) => {
-  const { data } = await spotifyApi.get(`/artists/${artistId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return data;
-};
-
-export const getArtistTopTracks = async (token, artistId) => {
-  const { data } = await spotifyApi.get(`/artists/${artistId}/top-tracks`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return data;
-};
-
-export const getTrack = async (token, trackId) => {
-  const { data } = await spotifyApi.get(`/tracks/${trackId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return data;
-};
-
-export const getPlaylist = async (token, playlistId) => {
-  const { data } = await spotifyApi.get(`/playlists/${playlistId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return data;
-};
-
-export const getPlaylistItems = async (token, playlistId) => {
-  const { data } = await spotifyApi.get(`/playlists/${playlistId}/track`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return data;
+export const catalog = {
+  getArtist: (token, artistId) => fetchData(token, `/artists/${artistId}`),
+  getArtistTopTracks: (token, artistId) =>
+    fetchData(token, `/artists/${artistId}/top-tracks`),
+  getTrack: (token, trackId) => fetchData(token, `/tracks/${trackId}`),
+  getPlaylist: (token, playlistId) =>
+    fetchData(token, `/playlists/${playlistId}`),
+  getPlaylistItems: (token, playlistId) =>
+    fetchData(token, `/playlists/${playlistId}/track`),
 };

@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { useParams } from "react-router";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 import { useQuery } from "@tanstack/react-query";
-import { getArtist } from "../api/spotify.js";
+import { catalog } from "../api/spotify.js";
 import { Loader } from "../components/Loader.jsx";
 import { Overlay } from "../components/Overlay.jsx";
 
@@ -17,9 +17,10 @@ export const ArtistPage = () => {
     data: artistData,
     isPending: isArtistPending,
     isError: isArtistError,
+    error: artistError,
   } = useQuery({
     queryKey: ["artist", id], // Refetch every time the artist ID changes
-    queryFn: () => getArtist(accessToken, id),
+    queryFn: () => catalog.getArtist(accessToken, id),
     enabled: !!accessToken,
   });
 
@@ -32,8 +33,8 @@ export const ArtistPage = () => {
 
   if (isArtistError)
     return (
-      <div className="h-full flex justify-center items-center">
-        <p>Error loading artist</p>
+      <div>
+        <p className="text-lg">{artistError.message}</p>
       </div>
     );
 

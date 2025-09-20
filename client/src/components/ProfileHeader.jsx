@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 import { useQuery } from "@tanstack/react-query";
-import { getFollowing, getPlaylists } from "../api/spotify.js";
+import { user } from "../api/spotify.js";
 import userPlaceholder from "../assets/user.png";
 
 export const ProfileHeader = () => {
@@ -18,9 +18,10 @@ export const ProfileHeader = () => {
     data: followingData,
     isPending: isFollowingPending,
     isError: isFollowingError,
+    error: followingError,
   } = useQuery({
     queryKey: ["following", accessToken],
-    queryFn: () => getFollowing(accessToken),
+    queryFn: () => user.getFollowing(accessToken),
     enabled: !!accessToken,
   });
 
@@ -29,19 +30,27 @@ export const ProfileHeader = () => {
     data: playlistsData,
     isPending: isPlaylistsPending,
     isError: isPlaylistsError,
+    error: playlistsError,
   } = useQuery({
     queryKey: ["playlists", accessToken],
-    queryFn: () => getPlaylists(accessToken),
+    queryFn: () => user.getPlaylists(accessToken),
     enabled: !!accessToken,
   });
 
   //* "??" is called "nullish coalescing operator" (in French,'opérateur de fusion nulle') : it means if userProfile?.followers?.total is 'null' or 'undefined', followers number displays '0'
+
+  // Display user stats with fallbacks
   const followersCount = userProfile?.followers?.total?.toString() ?? "0";
   const followingCount = followingData?.artists?.total?.toString() ?? "0";
   const playlistsCount = playlistsData?.total?.toString() ?? "0";
 
-  if (isFollowingError || isPlaylistsError)
-    console.error("Error fetching Spotify data");
+  // Global error handling
+  if (isFollowingError || isPlaylistsError) {
+    console.error("Errors fetching user data:", {
+      followingError: followingError,
+      playlistsError: playlistsError,
+    });
+  }
 
   return (
     <header className="flex flex-col justify-center items-center gap-2 mb-12">

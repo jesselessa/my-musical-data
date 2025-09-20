@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 import { useQuery } from "@tanstack/react-query";
-import { getArtistTopTracks } from "../api/spotify.js";
+import { catalog } from "../api/spotify.js";
 import { Track } from "./Track.jsx";
 import { Loader } from "./Loader.jsx";
 
@@ -18,9 +18,10 @@ export const PopularTracks = ({
     data: popularTracksData,
     isPending: isPopularTracksPending,
     isError: isPopularTracksError,
+    error: popularTracksError,
   } = useQuery({
     queryKey: ["popularTracks", artistId],
-    queryFn: () => getArtistTopTracks(accessToken, artistId),
+    queryFn: () => catalog.getArtistTopTracks(accessToken, artistId),
     enabled: !!artistId, // Fetch data only if artistId is available (popularTracksData only exists because of trackData)
   });
 
@@ -33,13 +34,17 @@ export const PopularTracks = ({
 
   if (isPopularTracksError)
     return (
-      <div className="h-full">
-        <p>Error while fetching data</p>
+      <div>
+        <p className="text-lg text-center">{popularTracksError.message}</p>
       </div>
     );
 
   if (!popularTracksData?.tracks || popularTracksData?.tracks?.length === 0)
-    return <p className="text-gray-400">No popular tracks found.</p>;
+    return (
+      <div>
+        <p className="text-lg text-center">No popular tracks found.</p>
+      </div>
+    );
 
   return (
     <div className="flex flex-col gap-5">
