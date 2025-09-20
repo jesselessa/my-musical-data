@@ -58,7 +58,6 @@ export const PlaylistPage = () => {
     (accumulator, item) => accumulator + (item.track?.duration_ms || 0),
     0 // Initial value = 0
   );
-
   const formattedDuration = msToTime(totalDurationMs);
 
   return (
