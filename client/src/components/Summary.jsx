@@ -29,9 +29,9 @@ export const Summary = ({
   };
 
   return (
-    <section className="w-1/2 flex-1 flex flex-col">
+    <section className="w-full md:w-1/2 flex-1 flex flex-col">
       <header className="flex justify-between items-center mb-5">
-        <h2 className="text-lg font-bold">{title}</h2>
+        <h2 className="md:text-lg font-bold">{title}</h2>
         {/* Show the button only if the full list is not already displayed */}
         {!showFullList && (
           <button

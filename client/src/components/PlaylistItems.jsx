@@ -5,7 +5,7 @@ export const PlaylistItems = ({ playlist }) => {
   const itemsToDisplay = playlist?.tracks?.items?.slice(0, 20);
 
   return (
-    <div className="flex-1 flex flex-col gap-4">
+    <div className="flex-1 flex flex-col gap-5">
       {itemsToDisplay.map((item) => (
         <Track key={item.track.id} track={item.track} coverSize="size-16" />
       ))}

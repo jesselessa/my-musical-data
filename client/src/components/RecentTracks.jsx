@@ -43,7 +43,7 @@ export const RecentTracks = () => {
     );
 
   return (
-    <div className="flex-1 flex flex-col gap-4">
+    <div className="flex-1 flex flex-col gap-5">
       {recentData.items.map((item) => (
         <Track
           // Unique key is not ID because we can have many times the same track in our history

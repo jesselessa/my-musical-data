@@ -13,7 +13,7 @@ export const TopArtists = () => {
     <TopItemsPage
       category="Artists"
       listComponent={ArtistsList}
-      listWrapperClass="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-5 gap-10"
+      listWrapperClass="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-5 gap:5 md:gap-10"
       // Pass the styles object as a prop
       itemComponentProps={artistStyles}
     />

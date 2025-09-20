@@ -53,7 +53,7 @@ export const ProfileHeader = () => {
   }
 
   return (
-    <header className="flex flex-col justify-center items-center gap-2 mb-12">
+    <header className="flex flex-col justify-center items-center gap-2 p-3 mb-12">
       {/* Profile pic */}
       <div className="w-[150px] h-[150px] flex justify-center items-center rounded-full">
         <img

@@ -12,12 +12,12 @@ export const UserProfile = () => {
   // Set props to customize Artist and Track components inside the list component (ArtistsList or TracksList)
   const artistStyles = {
     layout: "flex-row",
-    coverSize: "size-16",
+    coverSize: "size-12 md:size-16",
     nameSize: "text-base",
   };
 
   const trackStyles = {
-    coverSize: "size-16",
+    coverSize: "size-12 md:size-16",
   };
 
   return (
@@ -25,12 +25,12 @@ export const UserProfile = () => {
       <ProfileHeader />
 
       {/* Top Summaries */}
-      <div className="flex-1 flex gap-12 p-2">
+      <div className="flex-1 flex flex-col md:flex-row gap-12 p-2">
         <Summary
           title="Top Artists Of All Time"
           category="Artists"
           listComponent={ArtistsList}
-          listWrapperClass="flex flex-col gap-4"
+          listWrapperClass="flex flex-col gap-5"
           itemComponentProps={artistStyles}
           showFullList={showFullArtists}
           setShowFullList={setShowFullArtists}
@@ -40,7 +40,7 @@ export const UserProfile = () => {
           title="Top Tracks Of All Time"
           category="Tracks"
           listComponent={TracksList}
-          listWrapperClass="flex flex-col gap-4"
+          listWrapperClass="flex flex-col gap-5"
           itemComponentProps={trackStyles}
           showFullList={showFullTracks}
           setShowFullList={setShowFullTracks}
