@@ -49,7 +49,7 @@ export const RecentTracks = () => {
           // Unique key is not ID because we can have many times the same track in our history
           key={item.played_at}
           track={item.track}
-          coverSize="size-16"
+          coverSize="size-14"
         />
       ))}
     </div>

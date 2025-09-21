@@ -61,11 +61,11 @@ export const PlaylistPage = () => {
   const formattedDuration = msToTime(totalDurationMs);
 
   return (
-    <section className="h-full flex gap-10">
+    <section className="h-full flex flex-col lg:flex-row gap-8 lg:gap-12">
       {/* Cover pic and details */}
-      <div className="w-2/5 flex flex-col">
+      <div className="w-full lg:w-2/5 flex flex-col items-center lg:items-start">
         {/* Cover pic */}
-        <div className="size-[300px] mb-5">
+        <div className="size-[250px] lg:size-[300px] mb-5">
           <img
             src={playlistData?.images?.[0]?.url || defaultCover}
             alt={`${playlistData?.name}`}
@@ -74,16 +74,18 @@ export const PlaylistPage = () => {
         </div>
 
         {/* Details */}
-        <div className="flex flex-col mb-8">
+        <div className="w-full flex flex-col items-center  text-center lg:text-start lg:items-start mb-8">
           {/* Name */}
-          <div className="text-3xl font-bold mb-1">{playlistData?.name}</div>
+          <div className="text-2xl lg:text-3xl font-bold mb-1">
+            {playlistData?.name}
+          </div>
           {/* Owner */}
           <div className="text-xl text-[#b9b9b9] font-semibold mb-2">
             By {playlistData?.owner?.display_name}
           </div>
           {/* Description */}
           {playlistData?.description && (
-            <div className="text-lg text-[#b9b9b9] mb-3">
+            <div className="text-base lg:text-lg text-[#b9b9b9] mb-3">
               {decodeHtml(playlistData.description)}
             </div>
           )}
@@ -104,7 +106,7 @@ export const PlaylistPage = () => {
         </a>
       </div>
 
-      <div className="w-3/5">
+      <div className="w-full lg:w-3/5">
         {!playlistData?.tracks?.total ? (
           <div>
             <p className="text-center text-lg">Your playlist is empty</p>

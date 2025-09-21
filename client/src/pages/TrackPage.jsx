@@ -47,10 +47,10 @@ export const TrackPage = () => {
   const trackDuration = msToTime(trackData?.duration_ms);
 
   return (
-    <section className="h-full flex gap-10">
-      <div className="w-2/5 flex flex-col">
+    <section className="h-full flex flex-col lg:flex-row gap-8 lg:gap-12">
+      <div className="w-full lg:w-2/5 flex flex-col items-center lg:items-start text-center lg:text-start">
         {/* Cover pic */}
-        <div className="size-[300px] mb-5">
+        <div className="size-[250px] lg:size-[300px] mb-5">
           <img
             src={`${trackData?.album?.images[0]?.url}`}
             alt={`${trackData.name}`}
@@ -60,14 +60,14 @@ export const TrackPage = () => {
 
         {/* Details */}
         <div className="flex flex-col gap-2 mb-8">
-          <div className="text-3xl font-bold">{trackData.name}</div>
+          <div className="text-2xl lg:text-3xl font-bold">{trackData.name}</div>
           <div className="text-xl text-[#b9b9b9] font-semibold">
             {artistName}
           </div>
-          <div className="text-lg text-[#b9b9b9]">
+          <div className="text-base lg:text-lg text-[#b9b9b9]">
             {albumName} &bull; {albumYear}
           </div>
-          <div className="text-base mb-2">{trackDuration}</div>
+          <div className="text-sm lg:text-base mb-2">{trackDuration}</div>
         </div>
 
         {/* Button Play */}
@@ -81,7 +81,7 @@ export const TrackPage = () => {
         </a>
       </div>
 
-      <div className="w-3/5">
+      <div className="w-full lg:w-3/5">
         <h2 className="text-lg font-bold text-white mb-5">
           Popular Tracks By The Same Artist
         </h2>

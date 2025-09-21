@@ -63,7 +63,9 @@ export const ArtistPage = () => {
         </div>
       </a>
 
-      <h1 className="text-3xl md:text-5xl font-bold">{artistData?.name}</h1>
+      <h1 className="text-2xl md:text-3xl lg:text-5x font-bold">
+        {artistData?.name}
+      </h1>
 
       {/* Artist's info */}
       <div className="w-full md:w-3/4 flex flex-col md:flex-rox justify-center items-center text-center gap-5 mt-5">
