@@ -11,7 +11,7 @@ export const Layout = () => {
       <Navbar userProfile={userProfile} />
 
       {/* Outlet acts as a placeholder where the child routes defined in the React Router configuration will be rendered */}
-      <main className="h-screen w-full flex-1 flex flex-col bg-[#181818] text-white overflow-auto p-3 md:p-12">
+      <main className="h-screen w-full flex-1 flex flex-col bg-[#181818] text-white overflow-auto p-3 md:p-5 lg:p-12">
         <Outlet />
       </main>
     </section>

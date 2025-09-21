@@ -5,15 +5,15 @@ export const TopArtists = () => {
   // Customize Artist component styles
   const artistStyles = {
     layout: "flex-col",
-    coverSize: "w-[200px] h-[200px]", // Larger size for the image
-    nameSize: "text-lg", // Larger font size
+    coverSize: "size-[135px] md:size-[200px]", // Larger size for the image
+    nameSize: "md:text-lg", // Larger font size
   };
 
   return (
     <TopItemsPage
       category="Artists"
       listComponent={ArtistsList}
-      listWrapperClass="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-5 gap:5 md:gap-10"
+      listWrapperClass="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-5 gap-6 md:gap-10"
       // Pass the styles object as a prop
       itemComponentProps={artistStyles}
     />

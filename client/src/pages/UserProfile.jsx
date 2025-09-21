@@ -12,12 +12,12 @@ export const UserProfile = () => {
   // Set props to customize Artist and Track components inside the list component (ArtistsList or TracksList)
   const artistStyles = {
     layout: "flex-row",
-    coverSize: "size-12 md:size-16",
+    coverSize: "size-16",
     nameSize: "text-base",
   };
 
   const trackStyles = {
-    coverSize: "size-12 md:size-16",
+    coverSize: "size-14 md:size-16",
   };
 
   return (

@@ -53,7 +53,7 @@ export const ArtistPage = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <div className="relative group size-[300px] rounded-full cursor-pointer">
+        <div className="relative group size-[250px] md:size-[300px] rounded-full mb-2 cursor-pointer">
           <img
             src={`${artistData?.images[0]?.url}`}
             alt={`${artistData?.name}`}
@@ -63,25 +63,25 @@ export const ArtistPage = () => {
         </div>
       </a>
 
-      <h1 className="text-[50px] font-bold">{artistData?.name}</h1>
+      <h1 className="text-3xl md:text-5xl font-bold">{artistData?.name}</h1>
 
       {/* Artist's info */}
-      <div className="w-3/4 flex justify-center items-center text-center gap-5 mt-5">
-        <div className="w-1/3 flex flex-col justify-center items-center gap-2">
+      <div className="w-full md:w-3/4 flex flex-col md:flex-rox justify-center items-center text-center gap-5 mt-5">
+        <div className="w-full md:w-1/3 flex flex-col justify-center items-center gap-2">
           <span className="text-xl text-[#1ed760] font-semibold">
             {followersCount}
           </span>
           <span className="text-[#b9b9b9] text-sm">FOLLOWERS</span>
         </div>
 
-        <div className="w-1/3 flex flex-col justify-center items-center gap-2">
+        <div className="w-full md:w-1/3 flex flex-col justify-center items-center gap-2">
           <span className="text-base text-[#1ed760] font-semibold">
             {artistGenres}
           </span>
           <span className="text-[#b9b9b9] text-sm">GENRES</span>
         </div>
 
-        <div className="w-1/3 flex flex-col justify-center items-center gap-2">
+        <div className="w-full md:w-1/3 flex flex-col justify-center items-center gap-2">
           <span className="text-xl text-[#1ed760] font-semibold">
             {artistData?.popularity} %
           </span>
