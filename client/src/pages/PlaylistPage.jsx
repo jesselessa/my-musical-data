@@ -61,7 +61,7 @@ export const PlaylistPage = () => {
   const formattedDuration = msToTime(totalDurationMs);
 
   return (
-    <section className="h-full flex flex-col lg:flex-row gap-8 lg:gap-12">
+    <section className="h-full flex flex-col lg:flex-row gap-8 lg:gap-12 mt-7 lg:mt-0">
       {/* Cover pic and details */}
       <div className="w-full lg:w-2/5 flex flex-col items-center lg:items-start">
         {/* Cover pic */}

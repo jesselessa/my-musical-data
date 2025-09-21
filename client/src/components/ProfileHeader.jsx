@@ -81,7 +81,7 @@ export const ProfileHeader = () => {
       {/* Stats */}
       <div className="flex justify-center items-center gap-5">
         <div className="flex flex-col justify-center items-center gap-2">
-          <span className="text-[#1ed760] font-bold">{followersCount}</span>
+          <span className="text-lg text-[#1ed760] font-bold">{followersCount}</span>
           <span className="text-sm text-[#9b9b9b]">
             {followersCount === 1 ? "FOLLOWER" : "FOLLOWERS"}
           </span>

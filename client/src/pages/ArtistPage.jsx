@@ -68,7 +68,7 @@ export const ArtistPage = () => {
       </h1>
 
       {/* Artist's info */}
-      <div className="w-full md:w-3/4 flex flex-col md:flex-rox justify-center items-center text-center gap-5 mt-5">
+      <div className="w-full md:w-3/4 flex flex-col md:flex-row justify-center items-center text-center gap-5 mt-5">
         <div className="w-full md:w-1/3 flex flex-col justify-center items-center gap-2">
           <span className="text-xl text-[#1ed760] font-semibold">
             {followersCount}

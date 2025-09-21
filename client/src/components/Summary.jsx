@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
 export const Summary = ({
   title,
@@ -15,17 +15,18 @@ export const Summary = ({
   const listEndRef = useRef();
 
   // Function to handle "See More" button click
-  const handleSeeMoreClick = () => {
-    setShowFullList(true);
+  const handleToggleClick = () => {
+    const newShowFullList = !showFullList;
+    setShowFullList(newShowFullList);
 
     //! State updates in React, like setShowFullList(true), are asynchronous.
-    // This means the DOM isn't updated instantly, so an immediate call to scrollIntoView() might fail because the target element isn't rendered yet
-    // We use setTimeout with a 0ms delay to ensure DOM has been updated
-    setTimeout(() => {
-      listEndRef.current.scrollIntoView({
-        behavior: "smooth",
-      });
-    }, 0);
+    // This means the DOM isn't updated instantly, so an immediate call to scrollIntoView() might fail because the target element isn't rendered yet. We use setTimeout with a 0ms delay to ensure DOM has been updated
+    if (newShowFullList)
+      setTimeout(() => {
+        listEndRef.current.scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 0);
   };
 
   return (
@@ -33,14 +34,12 @@ export const Summary = ({
       <header className="flex justify-between items-center mb-5">
         <h2 className="md:text-lg font-bold">{title}</h2>
         {/* Show the button only if the full list is not already displayed */}
-        {!showFullList && (
-          <button
-            onClick={handleSeeMoreClick}
-            className="text-xs font-semibold tracking-[1px] rounded-3xl border-1 border-white py-1.5 px-4 hover:bg-white hover:text-[#121212] transition-colors duration-200 ease-in-out active:transform active:translate-y-[1px] cursor-pointer"
-          >
-            SEE MORE
-          </button>
-        )}
+        <button
+          onClick={handleToggleClick}
+          className="text-xs font-semibold tracking-[1px] rounded-3xl border-1 border-white py-1.5 px-4 hover:bg-white hover:text-[#121212] transition-colors duration-200 ease-in-out active:transform active:translate-y-[1px] cursor-pointer"
+        >
+          {!showFullList ? "SEE MORE" : "SEE LESS"}
+        </button>
       </header>
 
       {/* Pass props to the child components (either ArtistsList, TracksList or PopularTracks)  */}

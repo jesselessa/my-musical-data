@@ -47,7 +47,7 @@ export const TrackPage = () => {
   const trackDuration = msToTime(trackData?.duration_ms);
 
   return (
-    <section className="h-full flex flex-col lg:flex-row gap-8 lg:gap-12">
+    <section className="h-full flex flex-col lg:flex-row gap-8 lg:gap-12 mt-7 lg:mt-0">
       <div className="w-full lg:w-2/5 flex flex-col items-center lg:items-start text-center lg:text-start">
         {/* Cover pic */}
         <div className="size-[250px] lg:size-[300px] mb-5">
