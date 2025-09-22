@@ -10,7 +10,7 @@ export const Login = () => {
     <section className="h-screen flex flex-col justify-center items-center bg-[#121212] text-[#1ed760] text-center gap-2 p-3 md:p-10 m-auto">
       <h1 className="text-4xl md:text-5xl font-bold mb-5">My Musical Data</h1>
 
-      <p className="w-full md:max-w-[60%] text-lg md:text-xl text-[#9b9b9b] mb-4">
+      <p className="w-full md:max-w-[50%] text-lg md:text-xl text-[#9b9b9b] mb-4">
         My Musical Data is a web application that helps Spotify users visualize
         their main listening habits.
       </p>
