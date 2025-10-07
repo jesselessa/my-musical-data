@@ -1,6 +1,6 @@
 import React from "react";
 
-// Navbar SVG icons to avoid issues with file paths
+// Use navbar SVG icons to avoid issues with file paths
 const ICONS = {
   profile: (
     <svg

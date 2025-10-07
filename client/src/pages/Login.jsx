@@ -10,12 +10,25 @@ export const Login = () => {
     <section className="h-screen flex flex-col justify-center items-center bg-[#121212] text-[#1ed760] text-center gap-2 p-3 md:p-10 m-auto">
       <h1 className="text-4xl md:text-5xl font-bold mb-5">My Musical Data</h1>
 
-      <p className="w-full md:max-w-[50%] text-lg md:text-xl text-[#9b9b9b] mb-4">
+      <p className="w-full md:max-w-[50%] text-lg md:text-xl text-[#9b9b9b] mb-3">
         My Musical Data is a web application that helps Spotify users visualize
         their main listening habits.
       </p>
 
-      {error && <p className="text-xl text-red-500 mb-6">{error}</p>}
+      {error && <p className="text-xl text-red-500 mb-2">{error}</p>}
+
+      <p className="text-lg text-white mb-6">
+        ⚠️ Contact the{" "}
+        <a
+          href="https://github.com/jesselessa"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline underline-offset-5"
+        >
+          developer
+        </a>{" "}
+        to be added to the application allow list before you can use it.
+      </p>
 
       {/* Redirection to Spotify Login page */}
       <a
