@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { user } from "../api/spotify.js";

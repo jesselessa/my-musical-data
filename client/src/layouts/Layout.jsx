@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Outlet } from "react-router";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 

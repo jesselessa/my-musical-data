@@ -1,3 +1,4 @@
+import React from "react";
 import { PlaylistsList } from "../components/PlaylistsList.jsx";
 
 // Display current user's all playlists

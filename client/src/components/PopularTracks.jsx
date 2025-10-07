@@ -1,13 +1,11 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { catalog } from "../api/spotify.js";
 import { Track } from "./Track.jsx";
 import { Loader } from "./Loader.jsx";
 
-export const PopularTracks = ({
-  trackData,
-}) => {
+export const PopularTracks = ({ trackData }) => {
   const { accessToken } = useContext(AuthContext);
 
   // Get artist's ID from track data

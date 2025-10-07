@@ -1,3 +1,5 @@
+import React from "react";
+
 export const MainHeader = ({ title, children }) => {
   return (
     <header className="flex flex-col md:flex-row md:justify-between items-center gap-5 md:gap-0 mb-8 md:mb-12">

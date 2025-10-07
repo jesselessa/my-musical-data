@@ -1,3 +1,5 @@
+import React from "react";
+
 export const FilterButtons = ({ selectedPeriod, setSelectedPeriod }) => {
   const periods = ["All Time", "Last 6 Months", "Last 4 Weeks"];
 

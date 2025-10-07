@@ -1,3 +1,4 @@
+import React from "react";
 import { RecentTracks } from "../components/RecentTracks.jsx";
 
 export const RecentPage = () => {

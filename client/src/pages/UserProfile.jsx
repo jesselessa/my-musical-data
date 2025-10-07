@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { ProfileHeader } from "../components/ProfileHeader.jsx";
 import { Summary } from "../components/Summary.jsx";
 import { ArtistsList } from "../components/ArtistsList.jsx";

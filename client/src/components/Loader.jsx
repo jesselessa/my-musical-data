@@ -1,3 +1,5 @@
+import React from "react";
+
 export const Loader = () => {
   const delays = ["250ms", "715ms", "475ms", "25ms", "190ms"];
 

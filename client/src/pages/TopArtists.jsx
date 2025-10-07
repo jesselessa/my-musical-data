@@ -1,3 +1,4 @@
+import React from "react";
 import { TopItemsPage } from "../components/TopItemsPage.jsx";
 import { ArtistsList } from "../components/ArtistsList.jsx";
 

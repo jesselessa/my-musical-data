@@ -1,3 +1,5 @@
+import React from "react";
+
 export const Overlay = ({
   position = "absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2",
   wrapperSize = "w-full h-full",

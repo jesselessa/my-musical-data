@@ -41,15 +41,11 @@ app.use("/api/spotify", spotifyRoutes);
 
 // Production setup for static files
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../client/dist")));
-
-  // Handle client-side routing for Single-Page Applications (SPA)
+  // SPA Fallback: Unknown routes directed to index.html
   app.use(history({ verbose: true }));
 
-  // Serve the SPA's index.html for unknown routes server side
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
-  });
+  // Static files from React/Vite
+  app.use(express.static(path.join(__dirname, "../client/dist")));
 }
 
 // Global error handler

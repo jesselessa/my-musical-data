@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router";
 import { Overlay } from "./Overlay.jsx";
 import defaultCover from "../assets/default-cover.jpg";
