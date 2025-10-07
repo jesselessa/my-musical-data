@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const spotifyApi = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/api/spotify`,
+  baseURL: `${import.meta.env.VITE_API_URL}/spotify`,
 });
 
 // Generic function to handle GET requests with the token
