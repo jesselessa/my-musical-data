@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
   const fetchUserProfile = async (token) => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}/api/spotify/profile`, {
+      const response = await axios.get(`${API_URL}/spotify/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setUserProfile(response.data);

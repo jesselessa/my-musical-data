@@ -40,9 +40,9 @@ export const ProfileHeader = () => {
   //* "??" is called "nullish coalescing operator" (in French,'opérateur de fusion nulle') : it means if userProfile?.followers?.total is 'null' or 'undefined', followers number displays '0'
 
   // Display user stats with fallbacks
-  const followersCount = userProfile?.followers?.total?.toString() ?? "0";
-  const followingCount = followingData?.artists?.total?.toString() ?? "0";
-  const playlistsCount = playlistsData?.total?.toString() ?? "0";
+  const followersCount = userProfile?.followers?.total ?? "0";
+  const followingCount = followingData?.artists?.total ?? "0";
+  const playlistsCount = playlistsData?.total ?? "0";
 
   // Global error handling
   if (isFollowingError || isPlaylistsError) {
