@@ -4,7 +4,7 @@ import logo from "../assets/logo.png";
 
 export const Login = () => {
   const { error } = useContext(AuthContext);
-  const API_BASE_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_API_URL;
 
   return (
     <section className="h-screen flex flex-col justify-center items-center bg-[#121212] text-[#1ed760] text-center gap-2 p-3 md:p-10 m-auto">
@@ -32,7 +32,7 @@ export const Login = () => {
 
       {/* Redirection to Spotify Login page */}
       <a
-        href={`${API_BASE_URL}/auth/login`}
+        href={`${API_URL}/auth/login`}
         className="display:inline-block w-[220px] bg-[#16c038] text-[#121212] font-bold tracking-[1px] rounded-full py-3 px-5 active:transform active:translate-y-[1.5px] duration-150 ease-in-out hover:bg-green-600 transition-colors cursor-pointer"
       >
         LOG IN TO SPOTIFY

@@ -22,6 +22,9 @@ const __dirname = dirname(__filename);
 // Parse JSON request bodies
 app.use(express.json());
 
+// Parse cookies from requests
+app.use(cookieParser());
+
 // Use CORS middleware
 const allowedOrigins = [process.env.CLIENT_URL];
 app.use(
@@ -32,23 +35,20 @@ app.use(
   })
 );
 
-// Parse cookies from requests
-app.use(cookieParser());
-
-// API routes
+// === API routes ===
 app.use("/api/auth", authRoutes);
 app.use("/api/spotify", spotifyRoutes);
 
-// Production setup for static files
+// === Production frontend setup for static files ===
 if (process.env.NODE_ENV === "production") {
+  // Serve static files from React/Vite
+  app.use(express.static(path.join(__dirname, "../client/dist")));
+
   // SPA Fallback: Unknown routes directed to index.html
   app.use(history({ verbose: true }));
-
-  // Static files from React/Vite
-  app.use(express.static(path.join(__dirname, "../client/dist")));
 }
 
-// Global error handler
+// === Global error handler ===
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res
@@ -56,7 +56,7 @@ app.use((err, req, res, next) => {
     .json({ error: err.message || "Internal Server Error" });
 });
 
-// Start the server
+// === Start the server ===
 app.listen(PORT, (error) => {
   if (error) {
     console.error("❌ Error connecting to server:", error);
