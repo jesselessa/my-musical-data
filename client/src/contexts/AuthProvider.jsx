@@ -26,9 +26,6 @@ export const AuthProvider = ({ children }) => {
 
       // Clear URL to remove the token hash
       window.history.replaceState({}, document.title, window.location.pathname);
-
-      // Redirect to Profile page
-      navigate("/profile");
     } else {
       const storedToken = localStorage.getItem("access_token");
       if (storedToken) {
@@ -46,6 +43,12 @@ export const AuthProvider = ({ children }) => {
   }, [accessToken]);
 
   const fetchUserProfile = async (token) => {
+    if (!token) {
+      setLoading(false);
+      setError("You need to be authenticated to get started.");
+      return;
+    }
+
     try {
       setLoading(true);
       const response = await axios.get(`${API_URL}/spotify/profile`, {

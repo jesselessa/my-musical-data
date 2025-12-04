@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./App.css";
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Context
@@ -20,13 +20,13 @@ import { PlaylistsPage } from "./pages/PlaylistsPage.jsx";
 import { PlaylistPage } from "./pages/PlaylistPage.jsx";
 
 export const App = () => {
-  const { accessToken } = useContext(AuthContext);
+  const { accessToken, loading } = useContext(AuthContext);
 
   const ProtectedRoute = ({ children }) => {
-    // If not authenticated, redirect to login
-    if (!accessToken) return <Login />;
-    // Otherwise, render the children components
-    return children;
+    if (loading) {
+      return <div className="h-screen flex justify-center items-center"><Loader /></div>
+    }
+    return accessToken ? children : <Navigate to="/" replace />;
   };
 
   // Create a client

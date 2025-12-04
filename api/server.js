@@ -18,6 +18,9 @@ const PORT = process.env.PORT;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Set 'trust proxy' to 1 if the app is behind a proxy (e.g., Nginx) to ensure secure cookies work correctly
+app.set("trust proxy", 1);
+
 // === Middlewares ===
 // Parse JSON request bodies
 app.use(express.json());
@@ -39,14 +42,18 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/spotify", spotifyRoutes);
 
-// === Production frontend setup for static files ===
+// === Serve client application ===
+// Serve static files from the client 'dist' directory
 if (process.env.NODE_ENV === "production") {
-  // Serve static files from React/Vite
   app.use(express.static(path.join(__dirname, "../client/dist")));
-
-  // SPA Fallback: Unknown routes directed to index.html
-  app.use(history({ verbose: true }));
 }
+
+// Handle client-side routing, redirecting all non-API requests to index.html
+app.use(
+  history({
+    index: "/index.html", 
+  })
+);
 
 // === Global error handler ===
 app.use((err, req, res, next) => {

@@ -5,8 +5,8 @@
  * 3 - Spotify sends back an authorization code to our server
  * 4 - Our server exchanges this code for an access token and a refresh token
  *
- * ⚠️ ≠ 'Client Credentials Flow' is a server-to-server flow where the application requests an access token using only its client_id and client_secret. It is used to access certain data without requiring user login
  */
+//! Note: ≠ from 'Client Credentials Flow' which is a server-to-server flow where the application requests an access token using only its client_id and client_secret. It is used to access certain data without requiring user login
 
 import axios from "axios";
 import { generateRandomString } from "../utils/generateRandomString.js";
@@ -27,28 +27,28 @@ const SPOTIFY_TOKEN_API = process.env.SPOTIFY_TOKEN_API;
  */
 const baseCookieOptions = {
   httpOnly: true,
-  sameSite: "lax",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
   secure: process.env.NODE_ENV === "production",
 };
 
-/*
- * Initiates the Spotify authentication flow ('Authorization Code Flow') by redirecting the user to the authorization URL
- */
+//* ==== SPOTIFY LOGIN ====
+// Redirects the user to Spotify's authorization page
+
 export const login = (req, res) => {
   const state = generateRandomString(16);
-  // Authorization scopes to request more user data and control
+  // Authorization scope to request more user data and control
   const scope =
     "user-read-private user-read-email user-top-read user-read-recently-played user-follow-read user-follow-modify playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private";
 
-  // Sets the state in a secure cookie to prevent CSRF attacks
+  // Set the state in a secure cookie to prevent CSRF attacks
   res.cookie(stateKey, state, baseCookieOptions);
 
-  // Constructs the authorization URL with all required parameters
+  // Construct the authorization URL with all required parameters
   const params = new URLSearchParams({
     response_type: "code",
     client_id: process.env.CLIENT_ID,
     scope: scope,
-    redirect_uri: process.env.REDIRECT_URI, // Must target our backend server
+    redirect_uri: process.env.REDIRECT_URI,
     state: state,
   });
 
@@ -56,28 +56,28 @@ export const login = (req, res) => {
   res.redirect(`${SPOTIFY_AUTH_URL}?${params.toString()}`);
 };
 
-/*
- * Handles the callback from Spotify authorization service.
- * It validates the state and exchanges the authorization code for an access token and a refresh token.
- */
+//* ==== SPOTIFY CALLBACK ====
+// Handles the callback from Spotify authorization service
+// It validates the state and exchanges the authorization code for an access token and a refresh token
+
 export const callback = async (req, res, next) => {
   const { code, state } = req.query;
   const storedState = req.cookies ? req.cookies[stateKey] : null;
 
-  // Checks if the state is missing or mismatched to prevent CSRF
-  if (state === null || state !== storedState)
+  // Check if the state is missing or mismatched to prevent CSRF
+  if (state === null || state !== storedState) {
     // In case of security check failure, redirection to login page with an error message in the URL hash
     return res.redirect(
       `${process.env.CLIENT_URL}/#${new URLSearchParams({
         error: "state_mismatch",
       }).toString()}`
     );
-
-  // Clears the state cookie after successful verification
+  }
+  // Clear the state cookie after successful verification
   res.clearCookie(stateKey, baseCookieOptions);
 
   try {
-    // Exchanges the authorization code for tokens
+    // Exchange the authorization code for tokens
     const response = await axios.post(
       SPOTIFY_TOKEN_API,
       new URLSearchParams({
@@ -97,7 +97,7 @@ export const callback = async (req, res, next) => {
 
     const { access_token, refresh_token } = response.data;
 
-    // Stores the refresh token in a secure, httpOnly cookie for long-term use
+    // Store the refresh token in a secure, httpOnly cookie for long-term use
     res.cookie(refreshKey, refresh_token, {
       ...baseCookieOptions,
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
@@ -115,21 +115,21 @@ export const callback = async (req, res, next) => {
   }
 };
 
-/*
- * Refreshes the access token using the stored refresh token
- */
+//* ==== SPOTIFY REFRESH TOKEN ====
+// Refreshes the access token using the stored refresh token
+
 export const refresh = async (req, res, next) => {
-  // Retrieves the refresh token from the httpOnly cookie
+  // Retrieve the refresh token from the httpOnly cookie
   const refresh_token_cookie = req.cookies ? req.cookies[refreshKey] : null;
 
-  // Returns an error if the refresh token is not found
+  // Return an error if the refresh token is not found
   if (!refresh_token_cookie) {
     // This is a specific logical error, handled directly
     return res.status(401).json({ error: "no_refresh_token_cookie" });
   }
 
   try {
-    // Requests a new access token using the refresh token
+    // Request a new access token using the refresh token
     const response = await axios.post(
       SPOTIFY_TOKEN_API,
       new URLSearchParams({
@@ -148,8 +148,8 @@ export const refresh = async (req, res, next) => {
 
     const { access_token } = response.data;
 
-    // Sends the new access token to the client
-    res.status(200).json({ access_token }); //* Note: we set a status code here because /refresh is an API endpoint
+    // Send the new access token to the client
+    res.status(200).json({ access_token }); 
   } catch (error) {
     next(error);
   }
