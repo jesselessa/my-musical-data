@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../contexts/AuthProvider.jsx";
+import { Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { user } from "../api/spotify.js";
 import userPlaceholder from "../assets/user.png";
+
+// Context
+import { AuthContext } from "../contexts/AuthProvider.jsx";
 
 export const ProfileHeader = () => {
   const { userProfile, accessToken, logout } = useContext(AuthContext);
@@ -96,18 +99,20 @@ export const ProfileHeader = () => {
           </span>
           <span className="text-sm text-[#9b9b9b]">FOLLOWING</span>
         </div>
-        <div className="flex flex-col justify-center items-center gap-2">
-          <span className="text-lg text-[#1ed760] font-bold">
-            {isPlaylistsPending
-              ? "..."
-              : isPlaylistsError
-              ? "Error"
-              : playlistsCount}
-          </span>
-          <span className="text-sm text-[#9b9b9b]">
-            {playlistsCount === 1 ? "PLAYLIST" : "PLAYLISTS"}
-          </span>
-        </div>
+        <Link to="/playlists">
+          <div className="flex flex-col justify-center items-center gap-2">
+            <span className="text-lg text-[#1ed760] font-bold">
+              {isPlaylistsPending
+                ? "..."
+                : isPlaylistsError
+                ? "Error"
+                : playlistsCount}
+            </span>
+            <span className="text-sm text-[#9b9b9b]">
+              {playlistsCount === 1 ? "PLAYLIST" : "PLAYLISTS"}
+            </span>
+          </div>
+        </Link>
       </div>
 
       {/* Logout */}

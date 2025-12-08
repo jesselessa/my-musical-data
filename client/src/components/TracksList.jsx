@@ -42,7 +42,7 @@ export const TracksList = ({
   if (!tracksData?.items?.length || tracksData?.items?.length === 0)
     return (
       <div>
-        <p className="text-lg">No tracks to display for this period.</p>
+        <p className="text-lg">No track to display for this period.</p>
       </div>
     );
 

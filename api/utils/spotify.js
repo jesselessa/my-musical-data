@@ -5,10 +5,16 @@ export const spotifyApi = axios.create({
   baseURL: process.env.SPOTIFY_BASE_URL,
 });
 
-export const fetchFromSpotify = async (endpoint, req, res, next, params = {}) => {
+export const fetchFromSpotify = async (
+  endpoint,
+  req,
+  res,
+  next,
+  params = {}
+) => {
   try {
     const response = await spotifyApi.get(endpoint, {
-      headers: { Authorization: req.token },
+      headers: { Authorization: req.token },      
       params,
     });
     res.json(response.data);

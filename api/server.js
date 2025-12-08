@@ -10,7 +10,7 @@ import history from "connect-history-api-fallback";
 import authRoutes from "./routes/auth.js";
 import spotifyRoutes from "./routes/spotify.js";
 
-// Create an Express app
+// Create an Express application
 const app = express();
 const PORT = process.env.PORT;
 
@@ -18,7 +18,8 @@ const PORT = process.env.PORT;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Set 'trust proxy' to 1 if the app is behind a proxy (e.g., Nginx) to ensure secure cookies work correctly
+// Trust proxy headers (because Nginx terminates HTTPS and forwards headers)
+//! ⚠️ Crucial for secure cookies (https detection) and correct IP logging
 app.set("trust proxy", 1);
 
 // === Middlewares ===
@@ -34,6 +35,7 @@ app.use(
   cors({
     origin: allowedOrigins,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    optionsSuccessStatus: 204,
     credentials: true, // Allow cookies
   })
 );
@@ -42,18 +44,23 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/spotify", spotifyRoutes);
 
-// === Serve client application ===
-// Serve static files from the client 'dist' directory
+// === Serve client in production ===
 if (process.env.NODE_ENV === "production") {
+  //! ⚠️ The order of the following two middlewares is crucial !!!
+  // 1. The history middleware handles client-side routing for non-API requests and non-static files
+  // It intercepts these requests and rewrites them to /index.html instead of letting Express send a 404 response
+  // The modified request (/index.html) is then passed to the next middleware (express.static)
+  app.use(
+    history({
+      index: "/index.html",
+    })
+  );
+
+  // 2. The express.static middleware serves static files from the React/Vite build directory
+  // The middleware express.static now sees a request for /index.html
+  // It finds this file in the 'dist' directory and serves it to the client
   app.use(express.static(path.join(__dirname, "../client/dist")));
 }
-
-// Handle client-side routing, redirecting all non-API requests to index.html
-app.use(
-  history({
-    index: "/index.html", 
-  })
-);
 
 // === Global error handler ===
 app.use((err, req, res, next) => {

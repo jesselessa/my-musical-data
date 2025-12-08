@@ -39,7 +39,7 @@ export const App = () => {
         {/* Login */}
         <Route path="/" element={<Login />} />
 
-        {/* All pages with common layout */}
+        {/* Protected routes */}
         <Route element={<Layout />}>
           <Route
             path="/profile"
@@ -105,9 +105,9 @@ export const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route path="*" element={<UserProfile />} />
         </Route>
 
+        {/* Fallback route for unknown paths */}
         <Route path="*" element={<Login />} />
       </Routes>
     </QueryClientProvider>

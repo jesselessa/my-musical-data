@@ -1,12 +1,9 @@
-/*
- * Our app uses 'Authorization Code Flow'(app acting in the name of the user) :
- * 1 - Redirection to Spotify login page
- * 2 - User gives its permission
- * 3 - Spotify sends back an authorization code to our server
- * 4 - Our server exchanges this code for an access token and a refresh token
- *
- */
-//! Note: ≠ from 'Client Credentials Flow' which is a server-to-server flow where the application requests an access token using only its client_id and client_secret. It is used to access certain data without requiring user login
+//* api/controllers/auth.js => This file manages the three main steps of Spotify's Authorization Code Flow, allowing the application to access user's data after their consent :
+// 1 - User is redirected to Spotify login page and asked to give permission
+// 2 - Spotify sends back an authorization code to our server
+// 3 - Our server exchanges this code for an access token and a refresh token
+
+//! ⚠️ ≠ 'Client Credentials Flow' which is a server-to-server flow where the application requests an access token using only its client_id and client_secret. It is used to access certain data without requiring user login
 
 import axios from "axios";
 import { generateRandomString } from "../utils/generateRandomString.js";
@@ -52,7 +49,7 @@ export const login = (req, res) => {
     state: state,
   });
 
-  //* Note: when our server responds with a redirection, the browser receives a "HTTP 302 Found" status code : the browser must make a new request to the provided URL immediately
+  //* Note: when our server responds with a redirection, the browser receives a 'HTTP 302 Found' status code : the browser must make a new request to the provided URL immediately
   res.redirect(`${SPOTIFY_AUTH_URL}?${params.toString()}`);
 };
 
@@ -64,9 +61,9 @@ export const callback = async (req, res, next) => {
   const { code, state } = req.query;
   const storedState = req.cookies ? req.cookies[stateKey] : null;
 
-  // Check if the state is missing or mismatched to prevent CSRF
+  // Retrieve state from request and compare it with the stored state in the cookie
   if (state === null || state !== storedState) {
-    // In case of security check failure, redirection to login page with an error message in the URL hash
+    // If missing or not matching, it is a potential CSRF attack, and the user is redirected to the client with an error
     return res.redirect(
       `${process.env.CLIENT_URL}/#${new URLSearchParams({
         error: "state_mismatch",
@@ -149,7 +146,7 @@ export const refresh = async (req, res, next) => {
     const { access_token } = response.data;
 
     // Send the new access token to the client
-    res.status(200).json({ access_token }); 
+    res.status(200).json({ access_token });
   } catch (error) {
     next(error);
   }
