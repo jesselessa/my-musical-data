@@ -48,5 +48,5 @@ export const catalog = {
   getPlaylist: (token, playlistId) =>
     fetchData(token, `/playlists/${playlistId}`),
   getPlaylistItems: (token, playlistId) =>
-    fetchData(token, `/playlists/${playlistId}/track`),
+    fetchData(token, `/playlists/${playlistId}/tracks`),
 };
