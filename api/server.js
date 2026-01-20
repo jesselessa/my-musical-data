@@ -56,7 +56,7 @@ if (process.env.NODE_ENV === "production") {
     })
   );
 
-  // 2. The express.static middleware serves static files from the React/Vite build directory
+  // 2. The express.static middleware serves static files from the React/Vite build directory ('client/dist')
   // The middleware express.static now sees a request for /index.html
   // It finds this file in the 'dist' directory and serves it to the client
   app.use(express.static(path.join(__dirname, "../client/dist")));
