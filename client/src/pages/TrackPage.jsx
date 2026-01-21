@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
-import { useParams } from "react-router";
+import { useParams, Navigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { catalog } from "../api/spotify.js";
 import { msToTime, getYear } from "../utils/utils.js";
@@ -24,6 +24,7 @@ export const TrackPage = () => {
     queryKey: ["track", id], // Refetch every time the track ID changes
     queryFn: () => catalog.getTrack(accessToken, id),
     enabled: !!accessToken, // Fetch data only if token available
+    retry: false, // Redirect happens instantly on the first 400/404 error
   });
 
   if (isTrackPending)
@@ -33,12 +34,10 @@ export const TrackPage = () => {
       </div>
     );
 
-  if (isTrackError)
-    return (
-      <div>
-        <p className="text-lg">{trackError.message}</p>
-      </div>
-    );
+  if (isTrackError) {
+    console.error("Track API Error:", trackError);
+    return <Navigate to="/profile" replace />;
+  }
 
   const artistName =
     trackData.artists.map((artist) => artist.name).join(", ") ?? "";
@@ -75,7 +74,7 @@ export const TrackPage = () => {
           href={`${trackData?.external_urls?.spotify}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-fit text-center text-[#181818] font-semibold rounded-3xl bg-[#1ed760] py-2 px-6 hover:bg-green-600 active:bg-green-500 active:transform active:translate-y-[1px]"
+          className="w-fit text-center text-[#181818] font-semibold rounded-3xl bg-[#1ed760] py-2 px-6 hover:bg-green-600 active:bg-green-500 active:transform active:translate-y-px"
         >
           PLAY IN SPOTIFY
         </a>

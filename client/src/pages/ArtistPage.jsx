@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useParams } from "react-router";
+import { useParams, Navigate } from "react-router";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { catalog } from "../api/spotify.js";
@@ -22,6 +22,7 @@ export const ArtistPage = () => {
     queryKey: ["artist", id], // Refetch every time the artist ID changes
     queryFn: () => catalog.getArtist(accessToken, id),
     enabled: !!accessToken,
+    retry: false, // Redirect happens instantly on the first 400/404 error
   });
 
   if (isArtistPending)
@@ -31,12 +32,11 @@ export const ArtistPage = () => {
       </div>
     );
 
-  if (isArtistError)
-    return (
-      <div>
-        <p className="text-lg">{artistError.message}</p>
-      </div>
-    );
+  if (isArtistError) {
+    console.error("Artist API Error:", artistError);
+    // Redirect to profile if the ID is invalid (400) or not found (404)
+    return <Navigate to="/profile" replace />;
+  }
 
   const followersCount = artistData?.followers?.total?.toString() ?? "0";
   const artistGenres =

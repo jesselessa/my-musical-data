@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./App.css";
-import { Routes, Route, Navigate } from "react-router";
+import { Routes, Route, Navigate, Outlet } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Context
@@ -19,96 +19,62 @@ import { RecentPage } from "./pages/RecentPage.jsx";
 import { PlaylistsPage } from "./pages/PlaylistsPage.jsx";
 import { PlaylistPage } from "./pages/PlaylistPage.jsx";
 
+// 1. Initialize QueryClient outside App to prevent cache resets on re-renders
+const queryClient = new QueryClient();
+
+// 2. Define Guard component outside to prevent unnecessary unmounting
+const ProtectedLayout = ({ loading, accessToken }) => {
+  if (loading) {
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <Loader />
+      </div>
+    );
+  }
+
+  if (!accessToken) return <Navigate to="/" replace />;
+
+  // Wrap child routes with the common Layout and provide an Outlet for them to render
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  );
+};
+
 export const App = () => {
   const { accessToken, loading } = useContext(AuthContext);
 
-  const ProtectedRoute = ({ children }) => {
-    if (loading) {
-      return <div className="h-screen flex justify-center items-center"><Loader /></div>
-    }
-    return accessToken ? children : <Navigate to="/" replace />;
-  };
-
-  // Create a client
-  const queryClient = new QueryClient();
-
   return (
-    // Provide the client to our app
+    // Provide QueryClient to the entire app
     <QueryClientProvider client={queryClient}>
       <Routes>
-        {/* Login */}
+        {/* Public route */}
         <Route path="/" element={<Login />} />
 
-        {/* Protected routes */}
-        <Route element={<Layout />}>
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <UserProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/artists"
-            element={
-              <ProtectedRoute>
-                <TopArtists />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="artists/:id"
-            element={
-              <ProtectedRoute>
-                <ArtistPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/tracks"
-            element={
-              <ProtectedRoute>
-                <TopTracks />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="tracks/:id"
-            element={
-              <ProtectedRoute>
-                <TrackPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/recent"
-            element={
-              <ProtectedRoute>
-                <RecentPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/playlists"
-            element={
-              <ProtectedRoute>
-                <PlaylistsPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/playlists/:id"
-            element={
-              <ProtectedRoute>
-                <PlaylistPage />
-              </ProtectedRoute>
-            }
-          />
+        {/* Protected routes group using the Guard component */}
+        <Route element={<ProtectedLayout loading={loading} accessToken={accessToken} />}>
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/artists" element={<TopArtists />} />
+          <Route path="/artists/:id" element={<ArtistPage />} />
+          <Route path="/tracks" element={<TopTracks />} />
+          <Route path="/tracks/:id" element={<TrackPage />} />
+          <Route path="/recent" element={<RecentPage />} />
+          <Route path="/playlists" element={<PlaylistsPage />} />
+          <Route path="/playlists/:id" element={<PlaylistPage />} />
         </Route>
 
-        {/* Fallback route for unknown paths */}
-        <Route path="*" element={<Login />} />
+        {/* Fallback for unmatched routes */}
+        <Route
+          path="*"
+          element={
+            accessToken ? (
+              <Navigate to="/profile" replace />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
       </Routes>
     </QueryClientProvider>
   );

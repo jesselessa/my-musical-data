@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useParams } from "react-router";
+import { useParams, Navigate } from "react-router";
 import { AuthContext } from "../contexts/AuthProvider.jsx";
 import { useQuery } from "@tanstack/react-query";
 import { catalog } from "../api/spotify.js";
@@ -30,6 +30,7 @@ export const PlaylistPage = () => {
     queryKey: ["playlist", id], // Refetch every time the playlist ID changes
     queryFn: () => catalog.getPlaylist(accessToken, id),
     enabled: !!accessToken,
+    retry: false, // Redirect happens instantly on the first 400/404 error
   });
 
   if (isPlaylistPending)
@@ -39,19 +40,16 @@ export const PlaylistPage = () => {
       </section>
     );
 
-  if (isPlaylistError)
-    return (
-      <section>
-        <p className="text-lg">{playlistError.message}</p>
-      </section>
-    );
+  if (isPlaylistError) {
+    console.error("Playlist API Error:", playlistError);
+    return <Navigate to="/profile" replace />;
+  }
 
   const tracksNumber =
     playlistData?.tracks?.total === 0
       ? "NO TRACK"
-      : `${playlistData?.tracks?.total} ${
-          playlistData?.tracks?.total === 1 ? "TRACK" : "TRACKS"
-        }`;
+      : `${playlistData?.tracks?.total} ${playlistData?.tracks?.total === 1 ? "TRACK" : "TRACKS"
+      }`;
 
   // Total playlist duration : we add together every track duration in the playlist in order to obtain a single value
   const totalDurationMs = playlistData?.tracks?.items?.reduce(
@@ -100,7 +98,7 @@ export const PlaylistPage = () => {
           href={`${playlistData?.external_urls?.spotify}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-fit text-center text-[#181818] font-semibold rounded-3xl bg-[#1ed760] py-2 px-6 hover:bg-green-500 active:bg-green-500 active:transform active:translate-y-[1px]"
+          className="w-fit text-center text-[#181818] font-semibold rounded-3xl bg-[#1ed760] py-2 px-6 hover:bg-green-500 active:bg-green-500 active:transform active:translate-y-px"
         >
           OPEN IN SPOTIFY
         </a>
