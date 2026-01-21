@@ -37,23 +37,26 @@ You can see a live demo of the project [here](https://www.mymusicaldata.jesseles
 ## Screenshots
 
 ![Login Screen](./client/public/screenshots/0-login.png)
+
 ![User Profile](./client/public/screenshots/1-profile.png)
+
 ![Top Artists](./client/public/screenshots/2-artists.png)
+
 ![Artist's Popular Tracks](./client/public/screenshots/3-tracks.png)
 
 ## Main features
 
-- **Spotify Authentication**: Secure login using Spotify OAuth 2.0.
-- **Top Content Insights**: Visualize your most-played artists and tracks over different time ranges.
-- **Recently Played**: Access your real-time history of recently played tracks.
-- **Dedicated Artist & Track Pages**: 
+- **Spotify Authentication** : Secure login using Spotify OAuth 2.0.
+- **Top Content Insights** : Visualize your most-played artists and tracks over different time ranges.
+- **Recently Played** : Access your real-time history of recently played tracks.
+- **Dedicated Artist & Track Pages** : 
     - Explore detailed pages for each artist or song.
     - Discover other popular tracks by the same artist directly from Artist page.
-- **Playlist Management**: View and explore your personal Spotify playlists.
+- **Playlist Management** : View and explore your personal Spotify playlists.
 
 ## Prerequisites
 
-Before running the project, ensure you meet the following requirements:
+Before running the project, ensure you meet the following requirements :
 
 ### 1. Spotify Developer Account
 
@@ -61,7 +64,7 @@ You must have a **Spotify account** to access the [Spotify Developer Dashboard](
 
 ### 2. User Allowlist (Development Mode)
 
-Since the application operates in development mode, Spotify limits access to specific users:
+Since the application operates in development mode, Spotify limits access to specific users :
 - Go to your App settings in the Spotify Dashboard.
 - Navigate to **Users and Access**.
 - Manually add the email addresses of the Spotify accounts you want to authorize (up to 25 users).
@@ -71,9 +74,9 @@ Since the application operates in development mode, Spotify limits access to spe
 Now that your Spotify application is configured, you can run the project locally :
 
 1. Open your terminal and navigate to your desired directory.
-2. Clone the repository: `git clone https://github.com/jesselessa/my-musical-data.git`.
+2. Clone the repository : `git clone https://github.com/jesselessa/my-musical-data.git`.
 
-**Note:** Configure environment variables: Create a `.env` file in the project directory and add your Spotify credentials (your **Spotify Client ID**, **Client Secret**, and **Redirect URI** obtained from the [Spotify Developer Dashboard](https://developer.spotify.com/)).
+**Note :** You must configure your environment variables by creating a `.env` file in the project directory and adding your Spotify credentials (**Spotify Client ID**, **Client Secret**, and **Redirect URI** obtained from the [Spotify Developer Dashboard](https://developer.spotify.com/)).
 
 3. Navigate to the project directory : `cd my-musical-data`.
 4. Inside the project directory :
@@ -85,24 +88,24 @@ Now that your Spotify application is configured, you can run the project locally
 
 [Vite](https://vitejs.dev/) is used for a modern and lean development workflow.
 
-1. **Install Node.js**: Ensure you have the latest LTS version.
-2. **Install Dependencies**: Run `npm install` in both the client and server folders (if separated) or the root.
-3. **Build for Production**: Use `npm run build` to generate the optimized `dist` folder.
+1. **Install Node.js** : Ensure you have the latest LTS version.
+2. **Install Dependencies** : Run `npm install` in both the client and server folders (if separated) or the root.
+3. **Build for Production** : Use `npm run build` to generate the optimized `dist` folder.
 
 ## Contributing
 
-Contributions are welcome! If you have ideas for new visualizations or features:
+Contributions are welcome! If you have ideas for new visualizations or features :
 
 - Fork the repository.
-- Create a feature branch: `git checkout -b feature/amazing-feature`.
-- Commit your changes: `git commit -m 'Add amazing feature'`.
-- Push to the branch: `git push origin feature/amazing-feature`.
+- Create a feature branch : `git checkout -b feature/amazing-feature`.
+- Commit your changes : `git commit -m 'Add amazing feature'`.
+- Push to the branch : `git push origin feature/amazing-feature`.
 - Open a Pull Request.
 
 ## Stay updated
 
-To keep your local version up to date with the latest features:
-`git pull origin main`
+To keep your local version up to date with the latest features :
+`git pull origin main`.
 
 ## Contact
 
