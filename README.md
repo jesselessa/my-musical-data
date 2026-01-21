@@ -94,7 +94,7 @@ Now that your Spotify application is configured, you can run the project locally
 
 ## Contributing
 
-Contributions are welcome! If you have ideas for new visualizations or features :
+Contributions are welcome ! If you have ideas for new visualizations or features :
 
 - Fork the repository.
 - Create a feature branch : `git checkout -b feature/amazing-feature`.
