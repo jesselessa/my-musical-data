@@ -58,7 +58,7 @@ export const ProfileHeader = () => {
   return (
     <header className="flex flex-col justify-center items-center gap-2 p-3 mb-12">
       {/* Profile pic */}
-      <div className="w-[150px] h-[150px] flex justify-center items-center rounded-full">
+      <div className="w-37.5 h-37.5 flex justify-center items-center rounded-full">
         <img
           src={profileImageUrl}
           className="w-full h-full rounded-full object-cover object-center"
@@ -94,8 +94,8 @@ export const ProfileHeader = () => {
             {isFollowingPending
               ? "..."
               : isFollowingError
-              ? "Error"
-              : followingCount}
+                ? "Error"
+                : followingCount}
           </span>
           <span className="text-sm text-[#9b9b9b]">FOLLOWING</span>
         </div>
@@ -105,8 +105,8 @@ export const ProfileHeader = () => {
               {isPlaylistsPending
                 ? "..."
                 : isPlaylistsError
-                ? "Error"
-                : playlistsCount}
+                  ? "Error"
+                  : playlistsCount}
             </span>
             <span className="text-sm text-[#9b9b9b]">
               {playlistsCount === 1 ? "PLAYLIST" : "PLAYLISTS"}
@@ -118,7 +118,7 @@ export const ProfileHeader = () => {
       {/* Logout */}
       <button
         onClick={logout}
-        className="text-sm font-semibold tracking-[2px] rounded-3xl border-1 border-white py-2 px-7 mt-5 cursor-pointer hover:bg-white hover:text-[#121212] transition-colors duration-200 ease-in-out active:transform active:translate-y-[1px]"
+        className="text-sm font-semibold tracking-[2px] rounded-3xl border border-white py-2 px-7 mt-5 cursor-pointer hover:bg-white hover:text-[#121212] transition-colors duration-200 ease-in-out active:transform active:translate-y-px"
       >
         LOGOUT
       </button>

@@ -36,7 +36,7 @@ export const Summary = ({
         {/* Show the button only if the full list is not already displayed */}
         <button
           onClick={handleToggleClick}
-          className="text-xs font-semibold tracking-[1px] rounded-3xl border-1 border-white py-1.5 px-4 hover:bg-white hover:text-[#121212] transition-colors duration-200 ease-in-out active:transform active:translate-y-[1px] cursor-pointer"
+          className="text-xs font-semibold tracking-[1px] rounded-3xl border border-white py-1.5 px-4 hover:bg-white hover:text-[#121212] transition-colors duration-200 ease-in-out active:transform active:translate-y-px cursor-pointer"
         >
           {!showFullList ? "SEE MORE" : "SEE LESS"}
         </button>

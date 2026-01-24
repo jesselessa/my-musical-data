@@ -53,7 +53,7 @@ export const ArtistPage = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <div className="relative group size-[250px] md:size-[300px] rounded-full mb-2 cursor-pointer">
+        <div className="relative group size-62.5 md:size-75 rounded-full mb-2 cursor-pointer">
           <img
             src={`${artistData?.images[0]?.url}`}
             alt={`${artistData?.name}`}

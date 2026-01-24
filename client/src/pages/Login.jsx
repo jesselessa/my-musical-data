@@ -35,7 +35,7 @@ export const Login = () => {
         {/* Login button - Redirection to Spotify Login page */}
         <a
           href={`${API_URL}/auth/login`}
-          className="display:inline-block w-[220px] bg-[#16c038] text-[#121212] font-bold tracking-[1px] rounded-full py-3 px-5 active:transform active:translate-y-[1.5px] duration-150 ease-in-out hover:bg-green-600 transition-colors mt-5 cursor-pointer"
+          className="display:inline-block w-55 bg-[#16c038] text-[#121212] font-bold tracking-[1px] rounded-full py-3 px-5 active:transform active:translate-y-[1.5px] duration-150 ease-in-out hover:bg-green-600 transition-colors mt-5 cursor-pointer"
         >
           LOG IN TO SPOTIFY
         </a>
@@ -48,7 +48,7 @@ export const Login = () => {
           © {new Date().getFullYear()} Jessica Elessa, All rights reserved -
           Created using Spotify API
         </p>
-        <img src={logo} className="w-[30px] h-auto" alt="logo" />
+        <img src={logo} className="w-7.5 h-auto" alt="logo" />
       </footer>
     </section>
   );
