@@ -76,7 +76,7 @@ Now that your Spotify application is configured, you can run the project locally
 2. Clone the repository : `git clone https://github.com/jesselessa/my-musical-data.git`.
 3. Navigate to the project directory : `cd my-musical-data`.
 4. Copy the .env.example files from the `api` and `client` folders, and rename them to .env. Fill in the required environment variables, including your Spotify credentials (**Spotify Client ID**, **Client Secret**, and **Redirect URI** obtained from the [Spotify Developer Dashboard](https://developer.spotify.com/)).
-5. Install the dependencies necessary to the project inside each folder by running `npm install`.
+5. Install the dependencies required for the project inside each folder by running `npm install`.
 6. Inside the project directory :
    - Run the frontend : `npm run dev`.
    - Start the backend server : `npm start`.
