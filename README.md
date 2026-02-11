@@ -12,7 +12,6 @@ My Musical Data is a web application that allows Spotify users to visualize thei
 - [Main features](#main-features)
 - [Prerequisites](#prerequisites)
 - [Run the project locally](#run-the-project-locally)
-- [Getting started with Vite](#getting-started-with-vite)
 - [Contributing](#contributing)
 - [Stay Updated](#stay-updated)
 - [Contact](#contact)
@@ -73,24 +72,15 @@ Since the application operates in development mode, Spotify limits access to spe
 
 Now that your Spotify application is configured, you can run the project locally :
 
-1. Open your terminal and navigate to your desired directory.
+1. Open your terminal and navigate to the location where you want the local repository to be copied.
 2. Clone the repository : `git clone https://github.com/jesselessa/my-musical-data.git`.
-
-**Note :** You must configure your environment variables by creating a `.env` file in the project directory and adding your Spotify credentials (**Spotify Client ID**, **Client Secret**, and **Redirect URI** obtained from the [Spotify Developer Dashboard](https://developer.spotify.com/)).
-
 3. Navigate to the project directory : `cd my-musical-data`.
-4. Inside the project directory :
+4. Copy the .env.example files from the `api` and `client` folders, and rename them to .env. Fill in the required environment variables, including your Spotify credentials (**Spotify Client ID**, **Client Secret**, and **Redirect URI** obtained from the [Spotify Developer Dashboard](https://developer.spotify.com/)).
+5. Install the dependencies necessary to the project inside each folder by running `npm install`.
+6. Inside the project directory :
    - Run the frontend : `npm run dev`.
    - Start the backend server : `npm start`.
-5. Open http://localhost:5173 in your browser.
-
-## Getting Started with Vite
-
-[Vite](https://vitejs.dev/) is used for a modern and lean development workflow.
-
-1. **Install Node.js** : Ensure you have the latest LTS version.
-2. **Install Dependencies** : Run `npm install` in both the client and server folders (if separated) or the root.
-3. **Build for Production** : Use `npm run build` to generate the optimized `dist` folder.
+7. Open http://localhost:5173 in your browser to view the live application.
 
 ## Contributing
 
